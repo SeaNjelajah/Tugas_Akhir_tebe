@@ -14,25 +14,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('layout.index');
-});
+    return view('home');
+})->name('home');
 
-Route::get('/kamar', function(){
+Route::get('/kamar', function() {
     return view('rooms-tariff');
 })->name('kamar');
 
-Route::get('/pengantar', function(){
+Route::get('/pengantar', function() {
     return view('introduction');
-})->name('kamar');
+})->name('pengantar');
 
-Route::get('/kamar', function(){
-    return view('rooms-tariff');
-})->name('kamar');
+Route::get('/gallery', function() {
+    return view('gallery');
+})->name('gallery');
 
-Route::get('/kamar', function(){
-    return view('rooms-tariff');
-})->name('kamar');
+Route::get('/contact', function() {
+    return view('contact');
+})->name('contact');
 
-Route::get('/kamar', function(){
-    return view('rooms-tariff');
-})->name('kamar');

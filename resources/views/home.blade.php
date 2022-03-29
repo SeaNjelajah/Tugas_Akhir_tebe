@@ -1,8 +1,5 @@
 @include('layout.header')
 
-
-
-
 <!-- banner -->
 <div class="banner">
     <img src="images/photos/banner.jpg"  class="img-responsive" alt="slide">
@@ -159,24 +156,33 @@
                 <a class="right carousel-control" href="#FoodCarousel" role="button" data-slide="next"><i class="fa fa-angle-right"></i></a>
             </div>
             <!-- RoomCarousel-->
-            <div class="caption">Food and Drinks<a href="gallery.php" class="pull-right"><i class="fa fa-edit"></i></a></div>
+
+            <div class="caption">Food and Drinks
+                <a href="gallery.php" class="pull-right">
+                    <i class="fa fa-edit"></i>
+                </a>
+            </div>
+
+
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-sm-4 ">
             <!-- RoomCarousel -->
-            <div id="RoomCarousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                <div class="item active"><img src="/images/photos/oioioi.jpg" class="img-responsive" alt="slide"></div>
-                <div class="item  height-full"><img src="images/photos/9.jpg"  class="img-responsive" alt="slide"></div>
-                <div class="item  height-full"><img src="images/photos/10.jpg"  class="img-responsive" alt="slide"></div>
+            <div id="FacilityCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" style="overflow-y: hidden; max-height: 225px;"> {{-- Untuk membatasi gambar --}}
+                    <div class="item active"><img src="/images/photos/oioioi.jpg" class="img-responsive" alt="slide"></div>
+                    <div class="item  height-full"><img src="images/photos/9.jpg"  class="img-responsive" alt="slide"></div>
+                    <div class="item  height-full"><img src="images/photos/10.jpg"  class="img-responsive" alt="slide"></div>
                 </div>
                 <!-- Controls -->
-                <a class="left carousel-control" href="#RoomCarousel" role="button" data-slide="prev"><i class="fa fa-angle-left"></i></a>
-                <a class="right carousel-control" href="#RoomCarousel" role="button" data-slide="next"><i class="fa fa-angle-right"></i></a>
+                <a class="left carousel-control" href="#FacilityCarousel" role="button" data-slide="prev"><i class="fa fa-angle-left"></i></a>
+                <a class="right carousel-control" href="#FacilityCarousel" role="button" data-slide="next"><i class="fa fa-angle-right"></i></a>
             </div>
             <!-- RoomCarousel-->
             <div class="caption">Fasilitas<a href="rooms-tariff.php" class="pull-right"><i class="fa fa-edit"></i></a></div>
         </div>
+
+
     </div>
 </div>
 </div>

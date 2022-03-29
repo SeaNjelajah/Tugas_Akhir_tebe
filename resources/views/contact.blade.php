@@ -1,14 +1,13 @@
-<?php include 'header.php';?>
+{{-- <php //include 'header.php';?> --}}
+@include('layout.header')
+
 <div class="container">
 
 <h1 class="title">Contact</h1>
 
-
 <!-- form -->
+
 <div class="contact">
-
-
-
        <div class="row">
        	
        	<div class="col-sm-12">
@@ -22,20 +21,20 @@
 
        		<h4>Write to us</h4>
 			<form role="form">
-			<div class="form-group">	
-			<input type="text" class="form-control" id="name" placeholder="Name">
-			</div>
-			<div class="form-group">
-			<input type="email" class="form-control" id="email" placeholder="Enter email">
-			</div>
-			<div class="form-group">
-			<input type="phone" class="form-control" id="phone" placeholder="Phone">
-			</div>
-			<div class="form-group">
-			<textarea type="email" class="form-control"  placeholder="Message" rows="4"></textarea>
-			</div>
-					
-			<button type="submit" class="btn btn-default">KIRIM</button>
+				<div class="form-group">	
+				<input type="text" class="form-control" id="name" placeholder="Name">
+				</div>
+				<div class="form-group">
+				<input type="email" class="form-control" id="email" placeholder="Enter email">
+				</div>
+				<div class="form-group">
+				<input type="phone" class="form-control" id="phone" placeholder="Phone">
+				</div>
+				<div class="form-group">
+				<textarea type="email" class="form-control"  placeholder="Message" rows="4"></textarea>
+				</div>
+						
+				<button type="submit" class="btn btn-default">KIRIM</button>
 			</form>
 			</div>
 
@@ -52,4 +51,5 @@
 <!-- form -->
 
 </div>
-<?php include 'footer.php';?>
+
+@include('layout.footer')
