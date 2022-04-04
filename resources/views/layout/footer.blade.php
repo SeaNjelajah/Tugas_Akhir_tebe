@@ -19,23 +19,23 @@
 
                 <ul class="list-unstyled">
                     <li>
-                        <a href="rooms-tariff.php">Rooms & Tariff</a>
+                        <a href="{{ route('kamar') }}" >Rooms & Tariff</a>
                     </li>
                     
                     <li>
-                        <a href="introduction.php">Introduction</a>
+                        <a href="{{ route('pengantar') }}" >Introduction</a>
                     </li>
                     
                     <li>
-                        <a href="gallery.php">Gallery</a>
+                        <a href="{{ route('gallery') }}" >Gallery</a>
                     </li>
                     
                     <li>
-                        <a href="tour.php">Tour Packages</a>
+                        <a href="#" >Tour Packages</a>
                     </li>
                     
                     <li>
-                        <a href="contact.php">Contact</a>
+                        <a href="{{ route('contact') }}" >Contact</a>
                     </li>
 
                 </ul>
@@ -55,6 +55,7 @@
                 </div>
 
                 <div class="social">
+
                     <a href="#">
                         <i class="fa fa-facebook-square" data-toggle="tooltip" data-placement="top" data-original-title="facebook"></i>
                     </a>
@@ -124,7 +125,7 @@
 
 
 <!-- boostrap -->
-<script src="{{ asset('assets/bootstrap/js/bootstrap.js" type="text/javascript') }}"></script>
+<script src="{{ asset('assets/bootstrap/js/bootstrap.js') }}"></script>
 
 <!-- jquery mobile -->
 <script src="{{ asset('assets/mobile/touchSwipe.min.js') }}"></script>

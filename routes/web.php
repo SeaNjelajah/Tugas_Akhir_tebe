@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,25 +15,26 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group( function () {
     Route::view('/' , 'admin.dashboard.main')->name('dashboard');
+
+    Route::resource('kamar', 'App\Http\Controllers\KamarController');
+
+    Route::resource('reservasi', 'App\Http\Controllers\ReservasiController');
+
+    Route::view('/gallery', 'admin.gallery.main')->name('gallery');
+
+    Route::view('/message', 'admin.contact_message.main')->name('contact-message');
 });
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
 
-Route::get('/kamar', function() {
-    return view('rooms-tariff');
-})->name('kamar');
+Route::get('/', [HomeController::class, 'home'])->name('home');
 
-Route::get('/pengantar', function() {
-    return view('introduction');
-})->name('pengantar');
+Route::get('/kamar', [HomeController::class, 'kamar_dan_biaya'])->name('kamar');
 
-Route::get('/gallery', function() {
-    return view('gallery');
-})->name('gallery');
+Route::get('/pengantar', [HomeController::class, 'pengantar'])->name('pengantar');
 
-Route::get('/contact', function() {
-    return view('contact');
-})->name('contact');
+Route::get('/gallery', [HomeController::class, 'gallery'])->name('gallery');
+
+Route::get('/room/{id}/detail', [HomeController::class, 'detail_kamar'])->name('kamar.detail');
+
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 

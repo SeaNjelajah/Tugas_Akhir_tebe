@@ -14,6 +14,7 @@
             <div class="image">
                 <img src="{{ asset('assets/admin/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
             </div>
+
             <div class="info">
                 <a href="#" class="d-block">Admin Username</a>
             </div>
@@ -38,7 +39,7 @@
 
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
-                <li class="nav-item menu-open">
+                {{-- <li class="nav-item menu-open">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -59,7 +60,63 @@
                     </ul>
 
 
+                </li> --}}
+
+                <li class="nav-item">
+
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link @if (Route::is('admin.dashboard')) active @endif">
+                        <i class="nav-icon fas fa-tv"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+
                 </li>
+
+                <li class="nav-item">
+
+                    <a href="{{ route('admin.kamar.index') }}" class="nav-link @if (Route::is('admin.kamar')) active @endif">
+                        <i class="nav-icon fas fa-bed"></i>
+                        <p>
+                            Kamar
+                        </p>
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a href="{{ route('admin.reservasi') }}" class="nav-link @if (Route::is('admin.reservasi')) active @endif">
+                        <i class="nav-icon fas fa-pencil-alt"></i>
+                        <p>
+                            Reservasi
+                        </p>
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a href="{{ route('admin.gallery') }}" class="nav-link @if (Route::is('admin.gallery')) active @endif">
+                        <i class="nav-icon fas fa-image"></i>
+                        <p>
+                            Gallery
+                        </p>
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a href="{{ route('admin.contact-message') }}" class="nav-link @if (Route::is('admin.contact-message')) active @endif">
+                        <i class="nav-icon fas fa-inbox"></i>
+                        <p>
+                            Contact Message
+                        </p>
+                    </a>
+
+                </li>
+
 
                 <li class="nav-item">
 

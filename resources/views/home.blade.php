@@ -24,131 +24,68 @@
         <div class="row">
 
             <div class="col-sm-7 col-md-8">
-                <div class="embed-responsive embed-responsive-16by9 wowload fadeInLeft"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.607106597192!2d112.73153831437119!3d-7.2854642736248945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fbeb6a1ac669%3A0xbca18bc7af6e4881!2sJl.%20Diponegoro%20117-133%2C%20Darmo%2C%20Kec.%20Wonokromo%2C%20Kota%20SBY%2C%20Jawa%20Timur%2060241!5e0!3m2!1sid!2sid!4v1643077198496!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe></div>
+                <div class="embed-responsive embed-responsive-16by9 wowload fadeInLeft">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.607106597192!2d112.73153831437119!3d-7.2854642736248945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fbeb6a1ac669%3A0xbca18bc7af6e4881!2sJl.%20Diponegoro%20117-133%2C%20Darmo%2C%20Kec.%20Wonokromo%2C%20Kota%20SBY%2C%20Jawa%20Timur%2060241!5e0!3m2!1sid!2sid!4v1643077198496!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
             </div>
 
             <div class="col-sm-5 col-md-4">
 
+                @if (!empty($errors->all()))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    
+                    <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                    </ul>
+
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+                @endif
+
                 <h3>Reservasi</h3>
 
-                <form role="form" class="wowload fadeInRight">
+                <form method="POST" role="form" class="wowload fadeInRight">
 
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Name">
+                        <input name="nama_tamu" type="text" class="form-control" placeholder="Nama*">
                     </div>
 
                     <div class="form-group">
-                        <input type="email" class="form-control" placeholder="Email">
+                        <input name="email" type="email" class="form-control" placeholder="Email*">
                     </div>
 
                     <div class="form-group">
-                        <input type="Phone" class="form-control" placeholder="Phone">
+                        <input name="no_tlp" type="Phone" class="form-control" placeholder="No. Telepon*">
                     </div>
 
                     <div class="form-group">
-
-                        <div class="row">
-
-                            <div class="col-xs-6">
-
-                                <select class="form-control">
-                                    <option>No. of Rooms</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-
-                            </div>
-
-                            <div class="col-xs-6">
-                                <select class="form-control">
-                                    <option>No. of Adult</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </div>
-
-                        </div>
-
+                        <input name="jumlah_k" min="1" type="number" class="form-control" placeholder="Jumlah Kamar*">
                     </div>
 
                     <div class="form-group">
-
-                        <div class="row">
-
-                            <div class="col-xs-4">
-
-                                <select class="form-control col-sm-2" name="expiry-month" id="expiry-month">
-                                    <option>Date</option>
-                                    <option value="01">1</option>
-                                    <option value="02">2</option>
-                                    <option value="03">Mar (03)</option>
-                                    <option value="04">Apr (04)</option>
-                                    <option value="05">May (05)</option>
-                                    <option value="06">June (06)</option>
-                                    <option value="07">July (07)</option>
-                                    <option value="08">Aug (08)</option>
-                                    <option value="09">Sep (09)</option>
-                                    <option value="10">Oct (10)</option>
-                                    <option value="11">Nov (11)</option>
-                                    <option value="12">Dec (12)</option>
-                                </select>
-
-                            </div>
-
-                            <div class="col-xs-4">
-
-                                <select class="form-control col-sm-2" name="expiry-month" id="expiry-month">
-                                    <option>Month</option>
-                                    <option value="01">Jan (01)</option>
-                                    <option value="02">Feb (02)</option>
-                                    <option value="03">Mar (03)</option>
-                                    <option value="04">Apr (04)</option>
-                                    <option value="05">May (05)</option>
-                                    <option value="06">June (06)</option>
-                                    <option value="07">July (07)</option>
-                                    <option value="08">Aug (08)</option>
-                                    <option value="09">Sep (09)</option>
-                                    <option value="10">Oct (10)</option>
-                                    <option value="11">Nov (11)</option>
-                                    <option value="12">Dec (12)</option>
-                                </select>
-
-                            </div>
-
-                            <div class="col-xs-4">
-
-                                <select class="form-control" name="expiry-year">
-                                    <option value="13">2013</option>
-                                    <option value="14">2014</option>
-                                    <option value="15">2015</option>
-                                    <option value="16">2016</option>
-                                    <option value="17">2017</option>
-                                    <option value="18">2018</option>
-                                    <option value="19">2019</option>
-                                    <option value="20">2020</option>
-                                    <option value="21">2021</option>
-                                    <option value="22">2022</option>
-                                    <option value="23">2023</option>
-                                </select>
-
-                            </div>
-
-                        </div>
-
+                        <input name="jumlah_d" min="1" type="number" class="form-control" placeholder="Jumlah Dewasa*">
+                    </div>
+                    
+                    <div class="form-group">
+                        <input name="jumlah_a" type="number" class="form-control" placeholder="Jumlah Anak*">
                     </div>
 
                     <div class="form-group">
-                        <textarea class="form-control" placeholder="Message" rows="4"></textarea>
+                        <textarea name="pesan_lain" class="form-control" placeholder="Pesan Lain" rows="4"></textarea>
                     </div>
 
                     <button class="btn btn-default">Submit</button>
+                    
                 </form>
 
             </div>
+
+            
         </div>
     </div>
 </div>
@@ -167,7 +104,7 @@
                 <!-- RoomCarousel -->
 
                 <div id="RoomCarousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
+                    <div class="carousel-inner" style="overflow-y: hidden; max-height: 225px;"> {{-- Untuk membatasi gambar --}}
 
                         <div class="item active">
                             <img src="images/photos/8.jpg" class="img-responsive" alt="slide">
@@ -204,7 +141,7 @@
                 <!-- RoomCarousel -->
                 <div id="FoodCarousel" class="carousel slide" data-ride="carousel">
 
-                    <div class="carousel-inner">
+                    <div class="carousel-inner" style="overflow-y: hidden; max-height: 225px;"> {{-- Untuk membatasi gambar --}}
 
                         <div class="item active">
                             <img src="images/photos/1.jpg" class="img-responsive" alt="slide">
@@ -241,7 +178,7 @@
 
             </div>
 
-            <div class="col-sm-4 ">
+            <div class="col-sm-4">
                 <!-- RoomCarousel -->
                 <div id="FacilityCarousel" class="carousel slide" data-ride="carousel">
 

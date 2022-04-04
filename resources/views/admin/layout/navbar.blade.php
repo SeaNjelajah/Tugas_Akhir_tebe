@@ -3,7 +3,11 @@
     <!-- Left navbar links -->
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                <i class="fas fa-bars"></i>
+            </a>
+
         </li>        
     </ul>
 
@@ -36,10 +40,16 @@
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="far fa-comments"></i>
-                <span class="badge badge-danger navbar-badge">3</span>
+                <div class="user-panel mt-n1">
+                    Admin Username
+                    <div class="image">
+                        
+                        <img src="{{ asset('assets/admin/dist/img/user2-160x160.jpg')}}" class="img-circle border" width="40px" alt="User Image">
+                    </div>
+                </div>
             </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+
+            <div class="dropdown-menu">
                 {{-- <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
@@ -56,7 +66,7 @@
                     <!-- Message End -->
                 </a> --}}
                 
-                <a href="#" class="dropdown-item dropdown-footer">Log out</a>
+                <a href="#" class="dropdown-item">Log out</a>
             </div>
         </li>
 
@@ -66,13 +76,13 @@
             </a>
         </li>
 
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
                 <i class="fas fa-th-large"></i>
             </a>
-        </li>
+        </li> --}}
 
-        
+
     </ul>
 </nav>
 

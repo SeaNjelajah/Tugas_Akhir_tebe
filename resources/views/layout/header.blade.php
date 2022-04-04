@@ -13,29 +13,29 @@
     <!-- font awesome -->
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <!-- bootstrap 5 Grid -->
-    <link rel="stylesheet" href="{{ asset('assets/bootstrap5/css/bootstrap-grid.min.css') }}">
+
+   
 
     <!-- bootstrap -->
     <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}" />
 
 
     <!-- uniform -->
-    <link type="text/css" rel="stylesheet" href="assets/uniform/css/uniform.default.min.css" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('assets/uniform/css/uniform.default.min.css') }}" />
 
     <!-- animate.css -->
-    <link rel="stylesheet" href="assets/wow/animate.css" />
+    <link rel="stylesheet" href="{{ asset('assets/wow/animate.css') }}" />
 
 
     <!-- gallery -->
-    <link rel="stylesheet" href="assets/gallery/blueimp-gallery.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/gallery/blueimp-gallery.min.css') }}">
 
 
     <!-- favicon -->
-    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
-    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
 
 </head>
 
