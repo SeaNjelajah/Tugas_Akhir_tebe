@@ -80,28 +80,23 @@
                             <textarea name="pesan_lain" class="form-control" placeholder="Pesan Lain" rows="4"></textarea>
                         </div>
 
+                        <div class="form-group">
+                            <label for="check_in">Check In</label>
+                            <input id="check_in" name="check_in" type="datetime-local" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="check_out">Check Out</label>
+                            <input id="check_out" name="check_out" type="datetime-local" class="form-control">
+                        </div>
+                        
+                        <input id="pilih_kamar_checkbox" name="pilih_kamar_checkbox" type="checkbox" class="form-control" style="display: inline-block;">
+                        <label for="pilih_kamar_checkbox">Submit, dan pilih kamar</label>
+                        
+                        <button class="btn btn-default" style="float: right;">Submit</button>
                        
                         
                     </div>
-
-                </div>
-
-                <div class="col-12">
-                    
-                    <div class="wowload fadeInDown row">
-
-                        <div class="col">
-                            <input type="datetime-local" class="form-control" style="float: left;">
-                        </div>
-
-                        <div class="col">
-                            <input type="datetime-local" class="form-control" style="float: right;">
-                        </div>
-
-                        
-                    </div>
-
-                    <button class="btn btn-default">Submit</button>
 
                 </div>
 

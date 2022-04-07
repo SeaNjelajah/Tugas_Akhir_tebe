@@ -66,8 +66,9 @@
                         @foreach ($banyak_reservasi as $reservasi)
 
                         @php
-                        $kamar = $reservasi->kamar()->first() or false;
+                        $kamar = $reservasi->kamar->first();
                         @endphp
+                        
                         
                         <tr data-widget="expandable-table" aria-expanded="false">
 
@@ -75,7 +76,13 @@
                             <td>{{ $reservasi->nama_tamu }}</td>
                             <td>{{ $reservasi->check_in }}</td>
                             <td>{{ $reservasi->check_out }}</td>
-                            <td>@if ($kamar) Sudah di pilih @else Belum di pilih @endif</td>
+                            <td>
+                                @if ($kamar)
+                                Sudah di pilih
+                                @else
+                                Belum di pilih 
+                                @endif
+                            </td>
                             <td>{{ $reservasi->status }}</td>
 
                         </tr>
@@ -147,13 +154,15 @@
                                                         </thead>
                                                         <tbody>
                                                             @php $num_2 = 0; @endphp
+                                                            @foreach ($reservasi->kamar as $item)              
                                                             <tr>
                                                                 <td>{{ ++$num_2 }}</td>
-                                                                <td>Call of Duty</td>
-                                                                <td>455-981-221</td>
-                                                                <td>El snort testosterone trophy driving gloves handsome</td>
-                                                                <td>$64.50</td>
+                                                                <td>{{ $item->nama }}</td>
+                                                                <td>{{ $item->pivot->jumlah_kamar }}</td>
+                                                                <td>{{ $item->deskripsi }}</td>
+                                                                <td>Rp, {{ number_format($item->pivot->subtotal) }}</td>
                                                             </tr>
+                                                            @endforeach
                                                             
                                                         </tbody>
                                                     </table>
@@ -188,26 +197,14 @@
                                             <div class="row">
                                                 <!-- accepted payments column -->
                                                 <div class="col-12">
-
+                                                    
                                                     @if ($kamar)
                                                     <div class="table-responsive">
                                                         <table class="table">
                                                             <tbody>
                                                                 <tr>
-                                                                    <th style="width:50%">Subtotal:</th>
-                                                                    <td>$250.30</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>Tax (9.3%)</th>
-                                                                    <td>$10.34</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th>Shipping:</th>
-                                                                    <td>$5.80</td>
-                                                                </tr>
-                                                                <tr>
                                                                     <th>Total:</th>
-                                                                    <td>$265.24</td>
+                                                                    <td>Rp.{{ $reservasi->pembayaran; }}</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>

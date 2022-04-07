@@ -36,7 +36,27 @@
     <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
 
     <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
+    <style>
 
+      .row {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin-right: -7.5px;
+        margin-left: -7.5px;
+      }
+
+
+      .col {
+        -ms-flex-preferred-size: 0;
+        flex-basis: 0;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        max-width: 100%;
+      }
+      
+    </style>
 </head>
 
 <body id="home">

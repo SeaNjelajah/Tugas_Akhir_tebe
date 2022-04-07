@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\tbl_kamar;
 use App\Models\tbl_reservasi;
+use App\Models\tbl_rincian_hubungan_kamar_reservasi as tbl_rincian;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -44,7 +45,7 @@ class ReservasiController extends Controller
         'jumlah_d' => 'required|numeric',
         'jumlah_a' => 'required|numeric',
 
-        'check_in' => 'required|date',
+        'check_in' => ['nullable','date'],
         'check_out' => 'required|date',
 
         'pesan_lain' => 'required'
@@ -67,7 +68,7 @@ class ReservasiController extends Controller
         "jumlah_a.required" => "Jumlah Anak - Anak perlu di isi!",
         "jumlah_a.numeric" => "Jumlah Anak - Anak harus angka!",
 
-        "check_in.required" => "Check In perlu di isi!",
+        // "check_in.required" => "Check In perlu di isi!",
         "check_in.datetime" => "Check In harus tanggal!",
 
         "check_out.required" => "Check Out perlu di isi!",
@@ -103,17 +104,26 @@ class ReservasiController extends Controller
         $durasi = Carbon::create($check_in)->diffInDays(Carbon::create($request->get('check_out')));
 
         $reservasi = tbl_reservasi::create( array_merge ( $request->all(), compact('qrcode', 'check_in', 'durasi') ) );
-
+        
         if ($bag = $request->get('kamar_terpilih')) {
+
+            $pembayaran = 0;
+
             foreach ($bag as $id_kamar => $jumlah_kamar) {
 
                 $kamar = tbl_kamar::find($id_kamar);
                 $kamar->jumlah_kamar -= $jumlah_kamar;
                 $kamar->save();
 
-                $reservasi->associate($kamar);
+                $subtotal = $kamar->harga * $jumlah_kamar;
 
+                $pembayaran += $subtotal;
+
+                $reservasi->kamar()->attach($id_kamar, compact('jumlah_kamar', 'subtotal'));
             }
+
+            $reservasi->update( compact('pembayaran') );
+
         }
 
         return redirect()->route('admin.reservasi.index');
@@ -138,7 +148,8 @@ class ReservasiController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.reservasi.edit');
+        $reservasi = tbl_reservasi::find($id);
+        return view('admin.reservasi.edit', compact('reservasi'));
     }
 
     /**
@@ -150,7 +161,55 @@ class ReservasiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate($this->rules, $this->message);
+
+        $reservasi = tbl_reservasi::find($id);
+        
+        if ($bag = $request->get('kamar_terpilih')) {
+
+            $pembayaran = 0;
+
+            $reservasi->kamar()->sync( array_keys($bag) );
+
+            foreach ($bag as $id_kamar => $jumlah_kamar) {
+                
+                $kamar = $reservasi->kamar()->find($id_kamar);
+                
+                if ($kamar) {
+
+                    $pivot = $kamar->pivot; // Pivot = Tabel perantara
+
+                    if ($jumlah_kamar != $pivot->jumlah_kamar) {
+
+                        $kamar->jumlah_kamar += $pivot->jumlah_kamar - $jumlah_kamar;
+                        $kamar->save();
+
+                    }
+
+                    $subtotal = $kamar->harga * $jumlah_kamar;
+                    $pivot->update( compact('subtotal') );
+
+
+                } else {
+                    $kamar = tbl_kamar::find($id_kamar);
+
+                    $kamar->jumlah_kamar -= $jumlah_kamar;
+                    $kamar->save();
+
+                    $subtotal = $kamar->harga * $jumlah_kamar;
+
+                    $reservasi->kamar()->attach($id_kamar, compact('jumlah_kamar', 'subtotal'));
+                }
+
+                $pembayaran += $subtotal;
+                
+            }
+
+            $reservasi->update( compact('pembayaran') );
+
+        }
+
+        return redirect()->route('admin.reservasi.index');
     }
 
     /**
@@ -164,4 +223,27 @@ class ReservasiController extends Controller
         tbl_reservasi::find($id)->delete();
         return redirect()->route('admin.reservasi.index');
     }
+
+    public function check_in ($id) {
+        $reservasi = tbl_reservasi::find($id);
+
+        $reservasi->update('status', 'check_in');
+
+        return redirect()->route('admin.reservasi.index');
+    }
+
+    public function payment ($id) {
+        $reservasi = tbl_reservasi::find($id);
+
+        return redirect()->route('admin.reservasi.index');
+    }
+
+    public function check_in_and_payment ($id) {
+        
+        $this->check_in($id);
+        $this->payment($id);
+
+        return redirect()->route('admin.reservasi.index');
+    }
+
 }

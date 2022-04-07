@@ -63,48 +63,48 @@
                     <div class="wowload fadeInRight">
 
                         <div class="form-group">
-                            <label for="jumlah_d">Nama Tamu</label>
+                            <label for="nama_tamu">Nama Tamu</label>
 
-                            <input required name="nama_tamu" type="text" class="form-control" placeholder="Nama*">
-
-                        </div>
-
-                        <div class="form-group">
-                            <label for="jumlah_d">Email</label>
-
-                            <input required name="email" type="email" class="form-control" placeholder="Email*">
+                            <input id="nama_tamu" value="{{ old('nama_tamu') }}" required name="nama_tamu" type="text" class="form-control" placeholder="Nama*">
 
                         </div>
 
                         <div class="form-group">
-                            <label for="jumlah_d">Nomor Telepon</label>
+                            <label for="email">Email</label>
 
-                            <input required name="no_tlp" type="Phone" class="form-control" placeholder="No. Telepon*">
+                            <input id="email" required value="{{ old('email') }}" name="email" type="email" class="form-control" placeholder="Email*">
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="no_tlp">Nomor Telepon</label>
+
+                            <input id="no_tlp" required value="{{ old('no_tlp')  }}" name="no_tlp" type="Phone" class="form-control" placeholder="No. Telepon*">
 
                         </div>
 
                         <div class="form-group">
 
                             <label for="jumlah_k">Jumlah Kamar</label>
-                            <input required name="jumlah_k" min="1" value="1" type="number" class="form-control" placeholder="Jumlah Kamar*">
+                            <input id="jumlah_k" required value="{{ old('jumlah_k') | '1' }}" name="jumlah_k" min="1" type="number" class="form-control" placeholder="Jumlah Kamar*">
 
                         </div>
 
                         <div class="form-group">
                             <label for="jumlah_d">Jumlah Dewasa</label>
 
-                            <input required name="jumlah_d" min="1" value="1" type="number" class="form-control" placeholder="Jumlah Dewasa*">
+                            <input id="jumlah_d" required value="{{ old('jumlah_d') | '1' }}" name="jumlah_d" min="1" type="number" class="form-control" placeholder="Jumlah Dewasa*">
 
                         </div>
 
                         <div class="form-group">
                             <label for="jumlah_a">Jumlah Anak <sup>2</sup> </label>
-                            <input required name="jumlah_a" min="0" value="0" type="number" class="form-control" placeholder="Jumlah Anak*">
+                            <input id="jumlah_a" required name="jumlah_a" value="{{ old('jumlah_a') | '0' }}" min="0" type="number" class="form-control" placeholder="Jumlah Anak*">
                         </div>
 
                         <div class="form-group">
                             <label for="pesan_lain">Pesan Lain</label>
-                            <textarea required name="pesan_lain" class="form-control" placeholder="Pesan Lain" rows="4"></textarea>
+                            <textarea id="pesan_lain" required name="pesan_lain" class="form-control" placeholder="Pesan Lain" rows="4">{{ old('pesan_lain') }}</textarea>
                         </div>
 
 
@@ -174,7 +174,7 @@
 
 
             </div>
-            
+
             
 
         </div>
@@ -252,7 +252,7 @@
                                     <a data-toggle="modal" data-target="#modal_delete{{ $kamar->id }}" href="#" class="float-right btn btn-danger">Hapus</a> --}}
                                     
                                     <label for="id_jumlah_kamar_terpilih" class="my-auto mr-1">Jumlah Kamar: </label>
-                                    <input set="jumlah_kamar_terpilih"  class="w-25 form-control mr-1" type="number" min="0" value="0" id="id_jumlah_kamar_terpilih">
+                                    <input value="{{ (empty(old('kamar_terpilih')[$kamar->id]) ? '0' : $value) }}"  set="jumlah_kamar_terpilih"  class="w-25 form-control mr-1" type="number" min="0" id="id_jumlah_kamar_terpilih">
                                     <a set="pilih" class="active btn btn-primary">Pilih</a>
 
                                 </div>
@@ -271,12 +271,17 @@
 
         </div>
 
+        @if (!empty(old('kamar_terpilih')))
+            @foreach (old('kamar_terpilih') as $key => $value)
+            <input set="terpilih" type="hidden" name="kamar_terpilih[{{ $key }}]" value="{{ $value }}">
+            @endforeach
+        @endif
+
     </div>
 
     <button class="btn btn-primary float-right px-3">Submit</button>
     <div class="py-4"></div>
 </form>
-
 @endsection
 
 @section('script')
@@ -367,6 +372,15 @@
             source.value = jumlah_kamar;
         }
 
+    });
+
+    $(document).ready (() => {
+
+        setTimeout(() => {
+            count = card_pilih_kamar.querySelectorAll('input[set=terpilih]').length;
+            kamar_terpilih_text.innerText = count + " Kamar Terpilih";
+        }, 800);
+        
     });
 
 </script>

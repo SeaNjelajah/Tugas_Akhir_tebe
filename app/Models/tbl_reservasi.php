@@ -15,7 +15,11 @@ class tbl_reservasi extends Model
     protected $guarded = ['id'];
     
     public function kamar () {
-        return $this->belongsToMany(tbl_kamar::class, 'tbl_hubungan_kamar_reservasi');
+        return $this->belongsToMany(tbl_kamar::class, 'tbl_rincian_hubungan_kamar_reservasi')->withPivot(['jumlah_kamar', 'subtotal'])->withTimestamps();
+    }
+
+    public function rincian() {
+        return $this->kamar()->pivot;
     }
 
     public function daftar_tamu () {
