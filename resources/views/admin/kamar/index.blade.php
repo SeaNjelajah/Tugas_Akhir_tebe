@@ -26,6 +26,7 @@
 @endsection
 
 @section('content')
+
 <div class="row">
     <div class="col-12">
       <div class="card">
@@ -37,7 +38,7 @@
           <table class="table table-bordered table-hover">
             <thead>
               <tr>
-                <th>#</th>
+                <th>ID</th>
                 <th>Kamar</th>
                 <th>Ukuran</th>
                 <th>Harga</th>
@@ -47,13 +48,13 @@
 
             <tbody>
 
-              @php $num = 0; @endphp 
+         
               @foreach ($banyak_kamar as $kamar)
               @php
               $gambar_utama = $kamar->gambar_utama() or false;
               @endphp
               <tr data-widget="expandable-table" aria-expanded="false">
-                <td>{{ ++$num }}</td>
+                <td>{{ $kamar->id }}</td>
                 <td>{{ $kamar->nama }}</td>
                 <td>{{ $kamar->ukuran }} m²</td>
                 <td>Rp, {{ number_format($kamar->harga) }}</td>
@@ -76,9 +77,25 @@
                       </div>
   
                       <div class="col">
-                        <p>
-                          {{ $kamar->deskripsi }}
-                        </p>
+                        <div class="row h-100">
+
+                          <div class="col-12 h-75">
+                            <p>
+                              {{ $kamar->deskripsi }}
+                            </p>
+                          </div>
+
+                          <div class="col-12">
+
+                            <div class="float-right pl-3">
+                              <strong>Kamar Tersisa:</strong>
+                              {{ $kamar->jumlah_kamar }}
+                            </div>
+
+                          </div>
+
+                        </div>
+                        
                       </div>
 
                     </div>

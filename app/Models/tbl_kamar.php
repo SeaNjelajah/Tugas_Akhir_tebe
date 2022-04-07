@@ -16,6 +16,10 @@ class tbl_kamar extends Model
         return $this->belongsToMany(tbl_fasilitas::class, 'tbl_penghubung_fasilitas');
     }
 
+    public function reservasi() {
+        $this->belongsToMany(tbl_reservasi::class, 'tbl_hubungan_kamar_reservasi');
+    }
+
     public function gambar () {
         return $this->hasMany(tbl_gambar::class, 'id_kamar');
     }

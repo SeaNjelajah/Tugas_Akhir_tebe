@@ -86,7 +86,7 @@
 
                 <li class="nav-item">
 
-                    <a href="{{ route('admin.reservasi') }}" class="nav-link @if (Route::is('admin.reservasi')) active @endif">
+                    <a href="{{ route('admin.reservasi.index') }}" class="nav-link @if (Route::is('admin.reservasi')) active @endif">
                         <i class="nav-icon fas fa-pencil-alt"></i>
                         <p>
                             Reservasi
@@ -112,6 +112,18 @@
                         <i class="nav-icon fas fa-inbox"></i>
                         <p>
                             Contact Message
+                        </p>
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+                    {{-- @if (Route::is('admin.contact-message')) active @endif --}}
+                    {{-- {{ route('admin.contact-message') }} --}}
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Daftar Tamu
                         </p>
                     </a>
 

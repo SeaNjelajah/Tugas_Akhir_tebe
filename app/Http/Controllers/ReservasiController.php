@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\tbl_kamar;
 use App\Models\tbl_reservasi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 class ReservasiController extends Controller
 {
     /**
@@ -14,23 +16,38 @@ class ReservasiController extends Controller
      */
     public function index()
     {
-        $reservasi = tbl_reservasi::all();
-        return view('admin.reservasi.index', compact('reservasi'));
+        $banyak_reservasi = tbl_reservasi::all();
+        $pabrik_reservasi = tbl_reservasi::pabrik(10);
+        return view('admin.reservasi.index', compact('banyak_reservasi', 'pabrik_reservasi'));
+    }
+
+    
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $banyak_kamar = tbl_kamar::all();
+        return view('admin.reservasi.create', compact('banyak_kamar'));
     }
 
     private $rules = [
-        'nama_tamu' => ['required'],
-        'email' => ['required', 'email'],
-        'no_tlp' => ['required'],
-        
-        'jumlah_k' => ['required', 'numeric'],
-        'jumlah_d' => ['required', 'numeric'],
-        'jumlah_a' => ['required', 'numeric'],
+        'nama_tamu' => 'required',
+        'email' => 'required|email',
+        'no_tlp' => 'required',
 
-        'check_in' => ['required', 'datetime'],
-        'check_out' => ['required', 'datetime'],
+        'jumlah_k' => 'required|numeric',
+        'jumlah_d' => 'required|numeric',
+        'jumlah_a' => 'required|numeric',
 
-        'pesan_lain' => ['required'],
+        'check_in' => 'required|date',
+        'check_out' => 'required|date',
+
+        'pesan_lain' => 'required'
     ];
 
     private $message = [
@@ -59,17 +76,6 @@ class ReservasiController extends Controller
         "pesan_lain.required" => "Pesan Lain perlu di isi!",
     ];
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('admin.reservasi.create');
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -78,7 +84,39 @@ class ReservasiController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
+        $request->validate($this->rules, $this->message);
+        $i = 0;
+        do {
+            $qrcode = Str::random(10);
+            $qrcode = Str::upper($qrcode);
+            $i++;
+            if ($i == 50) dd('out');
+        } while (tbl_reservasi::where('qrcode', 'like', "%$qrcode%")->first());
         
+        if ($request->get('check_in_checkbox')) {
+            $check_in = $request->get('check_in');
+        } else {
+            $check_in = now()->toDateTimeLocalString();
+        }
+        
+        $durasi = Carbon::create($check_in)->diffInDays(Carbon::create($request->get('check_out')));
+
+        $reservasi = tbl_reservasi::create( array_merge ( $request->all(), compact('qrcode', 'check_in', 'durasi') ) );
+
+        if ($bag = $request->get('kamar_terpilih')) {
+            foreach ($bag as $id_kamar => $jumlah_kamar) {
+
+                $kamar = tbl_kamar::find($id_kamar);
+                $kamar->jumlah_kamar -= $jumlah_kamar;
+                $kamar->save();
+
+                $reservasi->associate($kamar);
+
+            }
+        }
+
+        return redirect()->route('admin.reservasi.index');
     }
 
     /**
@@ -87,9 +125,9 @@ class ReservasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        return view('admin.reservasi.show');
+    public function show($id) {
+        $reservasi = tbl_reservasi::find($id);
+        return view('admin.reservasi.show', compact('reservasi'));
     }
 
     /**
@@ -123,6 +161,7 @@ class ReservasiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        tbl_reservasi::find($id)->delete();
+        return redirect()->route('admin.reservasi.index');
     }
 }

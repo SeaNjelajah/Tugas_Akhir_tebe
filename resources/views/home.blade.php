@@ -21,72 +21,95 @@
 
     <div class="container">
 
-        <div class="row">
+        <form method="POST" role="form">
+            <div class="row">
 
-            <div class="col-sm-7 col-md-8">
-                <div class="embed-responsive embed-responsive-16by9 wowload fadeInLeft">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.607106597192!2d112.73153831437119!3d-7.2854642736248945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fbeb6a1ac669%3A0xbca18bc7af6e4881!2sJl.%20Diponegoro%20117-133%2C%20Darmo%2C%20Kec.%20Wonokromo%2C%20Kota%20SBY%2C%20Jawa%20Timur%2060241!5e0!3m2!1sid!2sid!4v1643077198496!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <div class="col-sm-7 col-md-8">
+                    <div class="embed-responsive embed-responsive-16by9 wowload fadeInLeft">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.607106597192!2d112.73153831437119!3d-7.2854642736248945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fbeb6a1ac669%3A0xbca18bc7af6e4881!2sJl.%20Diponegoro%20117-133%2C%20Darmo%2C%20Kec.%20Wonokromo%2C%20Kota%20SBY%2C%20Jawa%20Timur%2060241!5e0!3m2!1sid!2sid!4v1643077198496!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-sm-5 col-md-4">
+                <div class="col-sm-5 col-md-4">
 
-                @if (!empty($errors->all()))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    
-                    <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                    </ul>
+                    @if (!empty($errorBag = $errors->all()))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        
+                        <ul>
+                        @foreach ($errorBag as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                        </ul>
 
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    @endif
+
+                    <h3>Reservasi</h3>
+
+                    <div class="wowload fadeInRight">
+
+                        <div class="form-group">
+                            <input name="nama_tamu" type="text" class="form-control" placeholder="Nama*">
+                        </div>
+
+                        <div class="form-group">
+                            <input name="email" type="email" class="form-control" placeholder="Email*">
+                        </div>
+
+                        <div class="form-group">
+                            <input name="no_tlp" type="Phone" class="form-control" placeholder="No. Telepon*">
+                        </div>
+
+                        <div class="form-group">
+                            <input name="jumlah_k" min="1" type="number" class="form-control" placeholder="Jumlah Kamar*">
+                        </div>
+
+                        <div class="form-group">
+                            <input name="jumlah_d" min="1" type="number" class="form-control" placeholder="Jumlah Dewasa*">
+                        </div>
+                        
+                        <div class="form-group">
+                            <input name="jumlah_a" type="number" class="form-control" placeholder="Jumlah Anak*">
+                        </div>
+
+                        <div class="form-group">
+                            <textarea name="pesan_lain" class="form-control" placeholder="Pesan Lain" rows="4"></textarea>
+                        </div>
+
+                       
+                        
+                    </div>
 
                 </div>
-                @endif
 
-                <h3>Reservasi</h3>
-
-                <form method="POST" role="form" class="wowload fadeInRight">
-
-                    <div class="form-group">
-                        <input name="nama_tamu" type="text" class="form-control" placeholder="Nama*">
-                    </div>
-
-                    <div class="form-group">
-                        <input name="email" type="email" class="form-control" placeholder="Email*">
-                    </div>
-
-                    <div class="form-group">
-                        <input name="no_tlp" type="Phone" class="form-control" placeholder="No. Telepon*">
-                    </div>
-
-                    <div class="form-group">
-                        <input name="jumlah_k" min="1" type="number" class="form-control" placeholder="Jumlah Kamar*">
-                    </div>
-
-                    <div class="form-group">
-                        <input name="jumlah_d" min="1" type="number" class="form-control" placeholder="Jumlah Dewasa*">
-                    </div>
+                <div class="col-12">
                     
-                    <div class="form-group">
-                        <input name="jumlah_a" type="number" class="form-control" placeholder="Jumlah Anak*">
-                    </div>
+                    <div class="wowload fadeInDown row">
 
-                    <div class="form-group">
-                        <textarea name="pesan_lain" class="form-control" placeholder="Pesan Lain" rows="4"></textarea>
+                        <div class="col">
+                            <input type="datetime-local" class="form-control" style="float: left;">
+                        </div>
+
+                        <div class="col">
+                            <input type="datetime-local" class="form-control" style="float: right;">
+                        </div>
+
+                        
                     </div>
 
                     <button class="btn btn-default">Submit</button>
-                    
-                </form>
 
+                </div>
+
+                
             </div>
+        </form>
 
-            
-        </div>
+
     </div>
 </div>
 <!-- reservation-information -->

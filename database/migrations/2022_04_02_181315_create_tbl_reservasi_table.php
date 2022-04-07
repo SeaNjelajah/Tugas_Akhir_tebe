@@ -13,28 +13,33 @@ class CreateTblReservasiTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('tbl_reservasi');
         Schema::create('tbl_reservasi', function (Blueprint $table) {
-            
+
             $table->id();
-            $table->foreignIdFor('id_kamar')->nullable()->constrained('tbl_kamar')->nullOnDelete()->cascadeOnUpdate();
             
+            // $table->foreignId('id_kamar')->nullable()->constrained('tbl_kamar')->nullOnDelete()->cascadeOnUpdate();
+            
+            $table->string('qrcode');
+
             $table->string('nama_tamu');
             $table->string('email');
             $table->string('no_tlp');
 
-            $table->bigInteger('jumlah_k'); // Kamar
-            $table->bigInteger('jumlah_d'); // Dewasa
-            $table->bigInteger('jumlah_a'); // Anak"
+            $table->bigInteger('jumlah_k')->default(0); // Kamar
+            $table->bigInteger('jumlah_d')->default(0); // Dewasa
+            $table->bigInteger('jumlah_a')->default(0); // Anak"
 
-            $table->bigIncrements('durasi'); //Durasi Hari
+            $table->bigInteger('durasi'); //Durasi Hari
+
             $table->dateTime('check_in');
             $table->dateTime('check_out');
 
-            $table->text('pesan_lain');
+            $table->text('pesan_lain')->default('Tidak ada pesan lain-nya');
 
             $table->bigInteger('pembayaran')->default(0);
 
-            $table->enum('status', ['Reservasi', 'Proses', 'Selesai', 'Dibatalkan'])->default('Reservasi');
+            $table->enum('status', ['Reservasi', 'Check In', 'Check Out', 'Dibatalkan'])->default('Reservasi');
             
 
             $table->timestamps();
