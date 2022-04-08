@@ -24,7 +24,7 @@
 @section('content')
 <form method="POST" role="form" action="{{ route('admin.reservasi.update', $reservasi->id) }}" enctype="multipart/form-data">
     @csrf
-
+    @method('PUT')
     <div class="card card-primary">
 
         <div class="card-header">

@@ -69,7 +69,7 @@
                         $kamar = $reservasi->kamar->first();
                         @endphp
                         
-                        
+
                         <tr data-widget="expandable-table" aria-expanded="false">
 
                             <td>{{ ++$num }}</td>
@@ -179,7 +179,7 @@
 
                                                             <tr>
                                                                 <td>
-                                                                    <a href="#" class="btn btn-primary btn-block">
+                                                                    <a href="{{ route('admin.reservasi.edit', $reservasi->id) }}" class="btn btn-primary btn-block">
                                                                         <i class="fas fa-search mr-1"></i> Pilih Kamar
                                                                     </a>
                                                                 </td>
@@ -204,7 +204,7 @@
                                                             <tbody>
                                                                 <tr>
                                                                     <th>Total:</th>
-                                                                    <td>Rp.{{ $reservasi->pembayaran; }}</td>
+                                                                    <td>Rp.{{ number_format($reservasi->pembayaran) }}</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -222,18 +222,37 @@
 
                                                 <div class="col-12 my-2">
 
-                                                    <button type="button" class="btn btn-success float-right">
-                                                        <i class="fas fa-money-bill mr-1"></i>Check In and Payment
-                                                    </button>
                                                     
-                                                    <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
-                                                        <i class="fas fa-credit-card"></i> Payment
-                                                    </button>
+                                                    
+                                                    @php
+                                                    $pembayaran = $reservasi->pembayaran()->first();
+                                                    @endphp
 
-                                                    <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                                                    @if (!($pembayaran) && !$reservasi->status == "Check In")
+                                                    <a href="{{ route('admin.reservasi.check.in.payment', $reservasi->id) }}" type="button" class="btn btn-success float-right">
+                                                        <i class="fas fa-money-bill mr-1"></i>Check In and Payment
+                                                    </a>
+                                                    @endif
+
+                                                    @if ($pembayaran)
+                                                    <button type="button" class="btn btn-outline-primary float-right" style="margin-right: 5px;">
+                                                        <i class="fas fa-check"></i> Payment
+                                                    </button>
+                                                    @else
+                                                    <a href="{{ route('admin.reservasi.payment', $reservasi->id) }}" type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                                                        <i class="fas fa-credit-card"></i> Payment
+                                                    </a>
+                                                    @endif
+                                                    
+                                                    @if ($reservasi->status == "Check In")
+                                                    <button type="button" class="btn btn-outline-primary float-right" style="margin-right: 5px;">
                                                         <i class="fas fa-check"></i> Check In
                                                     </button>
-
+                                                    @else
+                                                    <a href="{{ route('admin.reservasi.check.in', $reservasi->id) }}" type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                                                        <i class="fas fa-clock"></i> Check In
+                                                    </a>
+                                                    @endif
                                                     
 
 
@@ -248,7 +267,7 @@
                                     <div class="card-footer">
                                         <a href="{{ route('admin.reservasi.show', $reservasi->id) }}" class="btn btn-primary">Rincian</a>
                                         <a href="{{ route('admin.reservasi.edit', $reservasi->id) }}" class="btn btn-warning">Edit</a>
-                                        <a data-toggle="modal" data-target="#modal_delete{{ $reservasi->id }}" href="#" class="float-right btn btn-danger">Hapus</a>
+                                        <a token="{{ csrf_token() }}" method="DELETE" set="sweet-alert-delete" url="{{ route('admin.reservasi.destroy', $reservasi->id) }}" class="active float-right btn btn-danger">Hapus</a>
                                     </div>
 
 
@@ -257,42 +276,6 @@
                             </td>
                         </tr>
 
-
-                        {{-- delete Modal --}}
-                        <form action="{{ route('admin.reservasi.destroy', $reservasi->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <div class="modal fade" id="modal_delete{{ $reservasi->id }}" aria-modal="true" role="dialog">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Delete Data?</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">×</span>
-                                            </button>
-                                        </div>
-
-                                        <div class="modal-body text-center">
-                                            <div class="row d-flex justify-content-center">
-                                                <i class="fas fa-info" style="font-size: 60px"></i>
-                                            </div>
-                                            <label class="mt-3">Anda yakin anda tidak bisa mengembalikannya lagi?</label>
-                                        </div>
-
-                                        <div class="modal-footer row p-0 m-0 pr-3 pl-1">
-
-                                            <div class="col-auto m-0 p-0 ml-auto">
-                                                <button type="submit" class="btn btn-primary">Hapus</button>
-                                            </div>
-
-
-                                        </div>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
-                        </form>
 
                         @endforeach
 

@@ -103,7 +103,7 @@
                     <div class="card-footer">
                       <a href="{{ route('admin.kamar.show', $kamar->id) }}" class="btn btn-primary">Rincian</a>
                       <a href="{{ route('admin.kamar.edit', $kamar->id) }}" class="btn btn-warning">Edit</a>
-                      <a data-toggle="modal" data-target="#modal_delete{{ $kamar->id }}" href="#" class="float-right btn btn-danger">Hapus</a>
+                      <a token="{{ csrf_token() }}" method="DELETE" set="sweet-alert-delete" url="{{ route('admin.kamar.destroy', $kamar->id) }}" class="active float-right btn btn-danger">Hapus</a>
                     </div>
                    
 
@@ -112,48 +112,6 @@
                 </td>
               </tr>
 
-
-              {{-- delete Modal --}}
-              <form action="{{ route('admin.kamar.destroy', $kamar->id) }}" method="POST" >
-              @csrf
-              @method('DELETE')
-                <div class="modal fade" id="modal_delete{{ $kamar->id }}" aria-modal="true" role="dialog">
-                  <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h4 class="modal-title">Delete Data?</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">×</span>
-                        </button>
-                      </div>
-                      <div class="modal-body text-center">
-                        <div class="row d-flex justify-content-center">
-                          <i class="fas fa-info" style="font-size: 60px"></i>
-                        </div>
-                        <label class="mt-3">Anda yakin anda tidak bisa mengembalikannya lagi?</label>
-                      </div>
-                      <div class="modal-footer row p-0 m-0 pr-3 pl-1">
-
-                        <div class="col-auto p-0 m-0 mr-2">
-                          <input type="checkbox" name="delete_image_data" id="delete_image_data">
-                        </div>
-
-                        <div class="col m-0 p-0">
-                          <label for="delete_image_data">Jika di centang maka gambar yang terpilih dihapus akan juga dihapus pada penyimpanan</label>
-                        </div>
-
-                        <div class="col-auto m-0 p-0 ml-3">
-                          <button type="submit" class="btn btn-primary">Hapus</button>
-                        </div>
-                        
-                        
-                      </div>
-                    </div>
-                    <!-- /.modal-content -->
-                  </div>
-                  <!-- /.modal-dialog -->
-                </div>
-              </form>
 
               @endforeach
 

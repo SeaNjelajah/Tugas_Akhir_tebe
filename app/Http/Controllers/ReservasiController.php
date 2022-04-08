@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\tbl_kamar;
 use App\Models\tbl_reservasi;
-use App\Models\tbl_rincian_hubungan_kamar_reservasi as tbl_rincian;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -18,8 +17,7 @@ class ReservasiController extends Controller
     public function index()
     {
         $banyak_reservasi = tbl_reservasi::all();
-        $pabrik_reservasi = tbl_reservasi::pabrik(10);
-        return view('admin.reservasi.index', compact('banyak_reservasi', 'pabrik_reservasi'));
+        return view('admin.reservasi.index', compact('banyak_reservasi'));
     }
 
     
@@ -126,7 +124,7 @@ class ReservasiController extends Controller
 
         }
 
-        return redirect()->route('admin.reservasi.index');
+        return redirect()->route('admin.reservasi.index')->with('success', 'Reservasi berhasil ditambahkan');
     }
 
     /**
@@ -209,7 +207,7 @@ class ReservasiController extends Controller
 
         }
 
-        return redirect()->route('admin.reservasi.index');
+        return redirect()->route('admin.reservasi.index')->with('success', 'Reservasi berhasil di edit');
     }
 
     /**
@@ -220,30 +218,53 @@ class ReservasiController extends Controller
      */
     public function destroy($id)
     {
-        tbl_reservasi::find($id)->delete();
-        return redirect()->route('admin.reservasi.index');
+        $reservasi = tbl_reservasi::find($id);
+        $reservasi->delete();
+
+        return redirect()->route('admin.reservasi.index')->with('success', 'Reservasi telah dihapus');
     }
 
     public function check_in ($id) {
         $reservasi = tbl_reservasi::find($id);
 
-        $reservasi->update('status', 'check_in');
+        If ( !$reservasi->kamar()->first() ) {
+            return redirect()->route('admin.reservasi.index')->with('failed', 'Harus memilih kamar terlebih dahulu!');
+        }
 
-        return redirect()->route('admin.reservasi.index');
+        $reservasi->update([
+            'status' => 'Check In'
+        ]);
+
+        return redirect()->route('admin.reservasi.index')->with('success', 'Check In Berhasil!');
     }
 
     public function payment ($id) {
         $reservasi = tbl_reservasi::find($id);
 
-        return redirect()->route('admin.reservasi.index');
+        If ( !$reservasi->kamar()->first() ) {
+            return redirect()->route('admin.reservasi.index')->with('failed', 'Harus memilih kamar terlebih dahulu!');
+        }
+
+        $reservasi->pembayaran()->create([
+            "pembayaran" => $reservasi->pembayaran
+        ]);
+
+        return redirect()->route('admin.reservasi.index')->with('success', 'Payment Berhasil!');
     }
 
     public function check_in_and_payment ($id) {
-        
+
+        $reservasi = tbl_reservasi::find($id);
+
+        If ( $reservasi->kamar()->first() ) {
+            return redirect()->route('admin.reservasi.index')->with('failed', 'Harus memilih kamar terlebih dahulu!');
+        }
+
         $this->check_in($id);
+
         $this->payment($id);
 
-        return redirect()->route('admin.reservasi.index');
+        return redirect()->route('admin.reservasi.index')->with('success', 'Check In dan Payment Berhasil!');
     }
 
 }

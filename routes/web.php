@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReservasiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,13 @@ Route::prefix('admin')->name('admin.')->group( function () {
 
     Route::resource('reservasi', 'App\Http\Controllers\ReservasiController');
 
+    Route::prefix('reservasi')->name('reservasi.')->group( function () {
+        Route::get('/check/in/{id}', [ReservasiController::class, 'check_in'])->name('check.in');
+        Route::get('/payment/{id}', [ReservasiController::class, 'payment'])->name('payment');
+        Route::get('/both/{id}', [ReservasiController::class, 'check_in_and_payment'])->name('check.in.payment');
+    } );
+    
+
     Route::view('/gallery', 'admin.gallery.main')->name('gallery');
 
     Route::view('/message', 'admin.contact_message.main')->name('contact-message');
@@ -28,6 +36,12 @@ Route::prefix('admin')->name('admin.')->group( function () {
 
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
+
+Route::put('/home/submit', [HomeController::class, 'homeSubmit'])->name('home.submit');
+
+Route::put('/kamar/keranjang/save', [HomeController::class, 'kamar_keranjang'])->name('keranjang');
+
+Route::put('/selesai', [HomeController::class, 'selesai'])->name('selesai');
 
 Route::get('/kamar', [HomeController::class, 'kamar_dan_biaya'])->name('kamar');
 

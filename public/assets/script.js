@@ -4,11 +4,7 @@ jQuery(document).ready(function($) {
     event.preventDefault();
     $('html,body').animate({scrollTop:$(this.hash).offset().top}, 800,'swing');
     });
-    });
-
-
-
-
+  });
 
 // uniform
     $(function () {
@@ -44,4 +40,51 @@ $('.carousel').swipe( {
          $(this).carousel('prev');
      },
      allowPageScroll: 'vertical'
- });
+});
+
+$('#selesai_checkbox').on('click', (e) => {
+  source = e.target;
+
+  affect1 = document.getElementById('cari_button');
+  affect2 = document.getElementById('selesai_button');
+  form = document.getElementById('kamar_detail_form');
+
+  if (source.checked) {
+    affect2.classList.remove('d-none');
+    affect1.classList.add('d-none');
+
+    form.action = affect2.getAttribute('url');
+
+  } else {
+    affect2.classList.add('d-none');
+    affect1.classList.remove('d-none');
+
+    form.action = affect1.getAttribute('url');
+
+  }
+
+});
+
+
+$('input[set=sinkron]').on('change', (e) => {
+
+  source = e.target;
+  target = $( source.getAttribute('to') ).get()[0];
+  console.log(source, target);
+
+  if (source.value != target.value) {
+    
+    target.value = source.value;
+  }
+
+  if (source.value > source.getAttribute('max')) {
+    source.value = source.getAttribute('max');
+    target.value = source.value;
+  } else if (source.value < 0) {
+    source.value = 0;
+    target.value = 0;
+  }
+
+});
+
+$('input[set=sinkron]').change();

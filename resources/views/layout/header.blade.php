@@ -55,6 +55,10 @@
         flex-grow: 1;
         max-width: 100%;
       }
+
+      .d-none {
+        display: none!important;
+      }
       
     </style>
 </head>

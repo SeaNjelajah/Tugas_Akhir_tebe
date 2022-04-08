@@ -27,9 +27,10 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/summernote/summernote-bs4.min.css') }}">
 
+    {{-- <link rel="stylesheet" href="{{ asset('assets/admin/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}"> --}}
+
     @yield('style')
 
-    @livewireStyles
 
 </head>
 
@@ -108,12 +109,15 @@
     <!-- overlayScrollbars -->
     <script src="{{ asset('assets/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
     <!-- AdminLTE App -->
-    <script src="{{ asset('assets/admin/dist/js/adminlte.js') }}"></script>
-
+    <script src="{{ asset('assets/admin/dist/js/adminlte.min.js') }}"></script>
+    {{-- Sweet Alert --}}
+    <script src="{{ asset('assets/admin/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
+    
+    @include('admin.layout.script');
     
     @yield('script')
     
-    @livewireScripts
+
 </body>
 
 </html>

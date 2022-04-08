@@ -40,6 +40,10 @@ class tbl_reservasi extends Model
         return (tbl_reservasi::count() == 0 ) ? 
         tbl_reservasi::factory()->count($jumlah)->create() : 
         tbl_reservasi::all();
-    }   
+    }
+
+    public function pembayaran () {
+        return $this->hasOne(tbl_pembayaran::class, 'id_reservasi');
+    }
 
 }

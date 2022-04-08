@@ -18,9 +18,9 @@
 
             <div class="rooms">
                 @if ($gambar_utama)
-                <img src="{{ asset('storage/kamar/' . $kamar->gambar_utama()->gambar ) }}" width="100%" class="img-responsive">
+                <img style="height: 364px;" src="{{ asset('storage/kamar/' . $kamar->gambar_utama()->gambar ) }}" width="100%" class="img-responsive">
                 @else 
-                <img src="{{ asset('images/NoImage.png') }}" class="img-responsive" width="100%">
+                <img style="height: 364px;" src="{{ asset('images/NoImage.png') }}" class="img-responsive" width="100%">
                 @endif
 
                 <div class="info">

@@ -21,7 +21,9 @@
 
     <div class="container">
 
-        <form method="POST" role="form">
+        <form method="POST" role="form" action="{{ route('home.submit') }}">
+            @csrf
+            @method('PUT')
             <div class="row">
 
                 <div class="col-sm-7 col-md-8">
@@ -91,7 +93,7 @@
                         </div>
                         
                         <input id="pilih_kamar_checkbox" name="pilih_kamar_checkbox" type="checkbox" class="form-control" style="display: inline-block;">
-                        <label for="pilih_kamar_checkbox">Submit, dan pilih kamar</label>
+                        <label for="pilih_kamar_checkbox">Submit, dan pilih kamar<br>(opsional)</label>
                         
                         <button class="btn btn-default" style="float: right;">Submit</button>
                        

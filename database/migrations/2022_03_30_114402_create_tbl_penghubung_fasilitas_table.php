@@ -16,8 +16,8 @@ class CreateTblPenghubungFasilitasTable extends Migration
     public function up()
     {
         Schema::create('tbl_penghubung_fasilitas', function (Blueprint $table) {
-            $table->foreignIdFor(tbl_kamar::class)->constrained('tbl_kamar')->cascadeOnUpdate();
-            $table->foreignIdFor(tbl_fasilitas::class)->constrained('tbl_fasilitas')->cascadeOnUpdate();
+            $table->foreignIdFor(tbl_kamar::class)->constrained('tbl_kamar')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignIdFor(tbl_fasilitas::class)->constrained('tbl_fasilitas')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 
