@@ -9,7 +9,13 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function home () {
-        return view('home');
+        $keranjang = [];
+
+        if ($id_cart = session()->get('id_cart')) {
+            $keranjang = tbl_keranjang::where('id_cart', 'like', "%$id_cart%");
+        }
+
+        return view('home', compact('keranjang'));
     }
 
     public function pengantar () {
@@ -39,7 +45,7 @@ class HomeController extends Controller
             return redirect()->route('kamar');
         }
 
-        return redirect()->route('home');
+        return redirect()->route('selesai');
     }
 
     public function kamar_dan_biaya () {

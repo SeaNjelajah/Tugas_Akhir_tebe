@@ -138,7 +138,7 @@
 
                                     <div class="col-md-4">
                                         <strong>Jumlah Kamar Tersisa:</strong><br>
-                                        <h4 style="margin-top: 5px; padding-left: 5px">{{ $kamar->jumlah_kamar }} Malam</h4>
+                                        <h4 style="margin-top: 5px; padding-left: 5px">{{ $kamar->jumlah_kamar }} Kamar</h4>
                                     </div>
 
                                     <div class="col-md-4" style="text-align: right;">

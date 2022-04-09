@@ -88,3 +88,4 @@ $('input[set=sinkron]').on('change', (e) => {
 });
 
 $('input[set=sinkron]').change();
+

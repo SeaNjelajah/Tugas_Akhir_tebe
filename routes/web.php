@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReservasiController;
+use App\Models\tbl_reservasi;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,9 +40,19 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 
 Route::put('/home/submit', [HomeController::class, 'homeSubmit'])->name('home.submit');
 
+Route::get('/test', function () {
+    
+    $reservasi = tbl_reservasi::find(8);
+
+    return view('selesai', compact('reservasi'));
+});
+
 Route::put('/kamar/keranjang/save', [HomeController::class, 'kamar_keranjang'])->name('keranjang');
 
 Route::put('/selesai', [HomeController::class, 'selesai'])->name('selesai');
+
+
+
 
 Route::get('/kamar', [HomeController::class, 'kamar_dan_biaya'])->name('kamar');
 
