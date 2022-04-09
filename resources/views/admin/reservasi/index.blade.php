@@ -267,7 +267,7 @@
                                     <div class="card-footer">
                                         <a href="{{ route('admin.reservasi.show', $reservasi->id) }}" class="btn btn-primary">Rincian</a>
                                         <a href="{{ route('admin.reservasi.edit', $reservasi->id) }}" class="btn btn-warning">Edit</a>
-                                        <a token="{{ csrf_token() }}" method="DELETE" set="sweet-alert-delete" url="{{ route('admin.reservasi.destroy', $reservasi->id) }}" class="active float-right btn btn-danger">Hapus</a>
+                                        <a href="{{ route('admin.reservasi.batalkan', $reservasi->id) }}" class="active float-right btn btn-danger">Batalkan</a>
                                     </div>
 
 

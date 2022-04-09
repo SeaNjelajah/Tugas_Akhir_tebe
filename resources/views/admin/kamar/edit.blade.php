@@ -118,6 +118,7 @@
                         </div>
 
                         <div class="form-group">
+
                             <label for="harga">Harga</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -126,6 +127,25 @@
                                 <input name="harga" value="{{ $kamar->harga }}" type="number" name="harga" class="form-control">
 
                                 @error('harga')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                            
+
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="jumlah_kamar">Jumlah Kamar</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Rp</span>
+                                </div>
+                                <input min="0" name="jumlah_kamar" value="{{ $kamar->jumlah_kamar }}" type="number" name="jumlah_kamar" class="form-control @error('jumlah_kamar') is-invalid @enderror">
+
+                                @error('jumlah_kamar')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>

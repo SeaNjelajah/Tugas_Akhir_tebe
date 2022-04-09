@@ -48,6 +48,50 @@
 
     });
 
+    $('a[set=sweet-alert-custom]').on('click', (e) => {
+        source = e.target;
+        url = source.getAttribute('url');
+        token = source.getAttribute('token');
+        method = source.getAttribute('method');
+
+        judul = source.getAttribute('judul');
+        pesan = source.getAttribute('pesan');
+        konfirmasi = source.getAttribute('konfirmasi');
+
+        if (!judul) {
+            judul = "Are you sure?";
+        }
+
+        if (!pesan) {
+            pesan = "You won't be able to revert this!";
+        }
+
+        if (!konfirmasi) {
+            konfirmasi = "Yes, delete it!";
+        }
+
+        mode = "warning";
+
+        if (source.getAttribute('mode')) {
+            mode = source.getAttribute('mode');
+        }
+
+        Swal.fire({
+            title: judul,
+            text: pesan,
+            icon: mode,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: konfirmasi
+        }).then((result) => {
+            if (result.isConfirmed) {
+                post (url, { _token: token, _method: method,  });
+            }
+        });
+
+    });
+
 </script>
 
 <script>

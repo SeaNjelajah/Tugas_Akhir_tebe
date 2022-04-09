@@ -27,6 +27,7 @@ Route::prefix('admin')->name('admin.')->group( function () {
         Route::get('/check/in/{id}', [ReservasiController::class, 'check_in'])->name('check.in');
         Route::get('/payment/{id}', [ReservasiController::class, 'payment'])->name('payment');
         Route::get('/both/{id}', [ReservasiController::class, 'check_in_and_payment'])->name('check.in.payment');
+        Route::get('/batalkan/{id}', [ReservasiController::class, 'batalkan'])->name('batalkan');
     } );
     
 
@@ -40,6 +41,8 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 
 Route::put('/home/submit', [HomeController::class, 'homeSubmit'])->name('home.submit');
 
+Route::put('/kamar/submit', [HomeController::class, 'kamarSubmit'])->name('kamar.submit');
+
 Route::get('/test', function () {
     
     $reservasi = tbl_reservasi::find(8);
@@ -51,7 +54,7 @@ Route::put('/kamar/keranjang/save', [HomeController::class, 'kamar_keranjang'])-
 
 Route::put('/selesai', [HomeController::class, 'selesai'])->name('selesai');
 
-
+Route::get('/ulang', [HomeController::class, 'ulang'])->name('ulang');
 
 
 Route::get('/kamar', [HomeController::class, 'kamar_dan_biaya'])->name('kamar');

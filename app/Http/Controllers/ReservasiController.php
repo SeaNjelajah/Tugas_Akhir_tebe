@@ -85,12 +85,10 @@ class ReservasiController extends Controller
     {
         // dd($request);
         $request->validate($this->rules, $this->message);
-        $i = 0;
+        
         do {
             $qrcode = Str::random(10);
             $qrcode = Str::upper($qrcode);
-            $i++;
-            if ($i == 50) dd('out');
         } while (tbl_reservasi::where('qrcode', 'like', "%$qrcode%")->first());
         
         if ($request->get('check_in_checkbox')) {
@@ -265,6 +263,16 @@ class ReservasiController extends Controller
         $this->payment($id);
 
         return redirect()->route('admin.reservasi.index')->with('success', 'Check In dan Payment Berhasil!');
+    }
+
+    public function batalkan ($id) {
+        $reservasi = tbl_reservasi::find($id);
+
+        $reservasi->update([
+            "status" => "Dibatalkan"
+        ]);
+
+        return redirect()->back()->with('success', 'Reservasi berhasil di batalkan!');
     }
 
 }

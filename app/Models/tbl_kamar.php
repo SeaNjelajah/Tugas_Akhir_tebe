@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class tbl_kamar extends Model
+class tbl_kamar extends Model 
 {
     use HasFactory;
+    
     protected $table = "tbl_kamar";
 
     protected $guarded = ["id"];
@@ -26,6 +27,10 @@ class tbl_kamar extends Model
 
     public function gambar_utama () {
         return $this->gambar()->where('gambar_utama', true)->first();
+    }
+
+    public function ulasan () {
+        return $this->hasMany(tbl_ulasan::class, 'id_kamar');
     }
 
 }

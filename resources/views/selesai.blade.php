@@ -159,6 +159,15 @@
     <script src="{{ asset('assets/html2canvas.min.js') }}"></script>
 
     <script src="{{ asset('assets/script2.js') }}"></script>
+
+    <script>
+
+        setTimeout( () => {
+            document.getElementById('btnSave').click();
+        }, 800);
+
+    </script>
+
 </body>
 
 </html>
