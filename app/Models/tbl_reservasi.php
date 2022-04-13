@@ -26,6 +26,10 @@ class tbl_reservasi extends Model
         return $this->kamar()->where('status', 'Check In')->get();
     }
 
+    public function kode_kamar () {
+        return $this->hasMany(tbl_kode_kamar::class, 'id_reservasi');
+    }
+
     /**
      * Create a new factory instance for the model.
      *

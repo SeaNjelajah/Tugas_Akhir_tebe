@@ -111,11 +111,13 @@ class HomeController extends Controller
 
         $request->validate($this->rules, $this->message);
 
-        $this->SessionSave($request);
-
-        $this->Create_id_cart();
-
+        
         if ( $request->get('pilih_kamar_checkbox') ) {
+
+            $this->SessionSave($request);
+
+            $this->Create_id_cart();
+
             return redirect()->route('kamar');
         }
 
@@ -130,9 +132,8 @@ class HomeController extends Controller
 
         $request->validate($rules, $message);
 
-        $reservasi = tbl_reservasi::create($request->all());
 
-        return redirect()->route('selesai')->with( compact('reservasi') );
+        return $this->selesai($request);
 
     }
 
@@ -258,16 +259,15 @@ class HomeController extends Controller
 
     public function selesai (Request $request) {
 
+        do {
+            $qrcode = Str::random(10);
+            $qrcode = Str::upper($qrcode);
+        } while (tbl_reservasi::where('qrcode', 'like', "%$qrcode%")->first());
+
         if (session()->has('id_cart')) {
-            
-            $bag = Validator::make( session()->all(), $this->rules, $this->message )->validate();
 
-            if ($bag) return redirect()->back()->withErrors($bag);
 
-            do {
-                $qrcode = Str::random(10);
-                $qrcode = Str::upper($qrcode);
-            } while (tbl_reservasi::where('qrcode', 'like', "%$qrcode%")->first());
+            Validator::make( session()->all(), $this->rules, $this->message )->validate();
             
             $durasi = Carbon::create( session()->get('check_in') )->diffInDays(Carbon::create( session()->get('check_out') ));
             
@@ -297,10 +297,13 @@ class HomeController extends Controller
             
         } else {
 
-            $reservasi = tbl_reservasi::create ($request->all());
+            $durasi = Carbon::create( $request->check_in )->diffInDays(Carbon::create( $request->check_out ));
 
+            $reservasi = tbl_reservasi::create ( array_merge($request->all(), compact('qrcode', 'durasi')) );
 
         }
+
+        session()->invalidate();
         
 
         return view('selesai', compact('reservasi'));
@@ -361,6 +364,9 @@ class HomeController extends Controller
             'jumlah' => $jumlah = $request->get('jumlah_k'),
             "subtotal" => $jumlah * $kamar->harga
         ]);
+
+        $kamar->jumlah_kamar -= $jumlah;
+        $kamar->save();
 
         return redirect()->route('kamar.detail', $kamar->id);
     }

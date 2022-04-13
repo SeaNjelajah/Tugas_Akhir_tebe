@@ -64,7 +64,7 @@
 
                 <li class="nav-item">
 
-                    <a href="{{ route('admin.dashboard') }}" class="nav-link @if (Route::is('admin.dashboard')) active @endif">
+                    <a href="{{ route('admin.dashboard.index') }}" class="nav-link @if (Route::is('admin.dashboard.index')) active @endif">
                         <i class="nav-icon fas fa-tv"></i>
                         <p>
                             Dashboard
@@ -75,10 +75,21 @@
 
                 <li class="nav-item">
 
-                    <a href="{{ route('admin.kamar.index') }}" class="nav-link @if (Route::is('admin.kamar')) active @endif">
+                    <a href="{{ route('admin.kamar.index') }}" class="nav-link @if (Route::is('admin.kamar.index')) active @endif">
                         <i class="nav-icon fas fa-bed"></i>
                         <p>
                             Kamar
+                        </p>
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a href="{{ route('admin.fasilitas.index') }}" class="nav-link @if (Route::is('admin.fasilitas.index')) active @endif">
+                        <i class="nav-icon fas fa-tools"></i>
+                        <p>
+                            Fasilitas Kamar
                         </p>
                     </a>
 
@@ -95,9 +106,33 @@
 
                 </li>
 
+                
+
                 <li class="nav-item">
 
-                    <a href="{{ route('admin.gallery') }}" class="nav-link @if (Route::is('admin.gallery')) active @endif">
+                    <a href="{{ route('admin.checkin.index') }}" class="nav-link @if (Route::is('admin.checkin.index')) active @endif">
+                        <i class="nav-icon fas fa-check"></i>
+                        <p>
+                            Check In
+                        </p>
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a href="{{ route('admin.riwayat.index') }}" class="nav-link @if (Route::is('admin.riwayat.index')) active @endif">
+                        <i class="nav-icon fas fa-history"></i>
+                        <p>
+                            Riwayat
+                        </p>
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a href="{{ route('admin.gallery.index') }}" class="nav-link @if (Route::is('admin.gallery.index')) active @endif">
                         <i class="nav-icon fas fa-image"></i>
                         <p>
                             Gallery
@@ -108,7 +143,7 @@
 
                 <li class="nav-item">
 
-                    <a href="{{ route('admin.contact-message') }}" class="nav-link @if (Route::is('admin.contact-message')) active @endif">
+                    <a href="{{ route('admin.contact.index') }}" class="nav-link @if (Route::is('admin.contact.index')) active @endif">
                         <i class="nav-icon fas fa-inbox"></i>
                         <p>
                             Contact Message
@@ -118,12 +153,22 @@
                 </li>
 
                 <li class="nav-item">
-                    {{-- @if (Route::is('admin.contact-message')) active @endif --}}
-                    {{-- {{ route('admin.contact-message') }} --}}
-                    <a href="#" class="nav-link">
+
+                    <a href="{{ route('admin.daftarTamu.index') }}" class="nav-link @if (Route::is('admin.daftarTamu.index')) active @endif">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Daftar Tamu
+                        </p>
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a href="{{ route('admin.laporanKeuangan.index') }}" class="nav-link @if (Route::is('admin.laporanKeuangan.index')) active @endif">
+                        <i class="nav-icon fas fa-money-check-alt"></i>
+                        <p>
+                            Laporan Keuangan
                         </p>
                     </a>
 

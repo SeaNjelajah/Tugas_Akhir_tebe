@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class tbl_kamar extends Model 
 {
-    use HasFactory;
+    use HasFactory, Searchable;
     
     protected $table = "tbl_kamar";
 
@@ -31,6 +32,10 @@ class tbl_kamar extends Model
 
     public function ulasan () {
         return $this->hasMany(tbl_ulasan::class, 'id_kamar');
+    }
+
+    public function kode_kamar () {
+        return $this->hasMany(tbl_kode_kamar::class, 'id_kamar');
     }
 
 }

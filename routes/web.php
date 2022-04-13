@@ -1,7 +1,14 @@
 <?php
 
+use App\Http\Controllers\ContactMessageController;
+use App\Http\Controllers\DaftarTamuController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FasilitasKamarController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LaporanKeuanganController;
 use App\Http\Controllers\ReservasiController;
+use App\Http\Controllers\RiwayatController;
 use App\Models\tbl_reservasi;
 use Illuminate\Support\Facades\Route;
 
@@ -19,21 +26,35 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->name('admin.')->group( function () {
     Route::view('/' , 'admin.dashboard.main')->name('dashboard');
 
+    Route::resource('dashboard', 'DashboardController');
+
     Route::resource('kamar', 'App\Http\Controllers\KamarController');
 
+    Route::resource('fasilitas', 'App\Http\Controllers\FasilitasKamarController');
+
     Route::resource('reservasi', 'App\Http\Controllers\ReservasiController');
+
+    Route::resource('checkin', 'App\Http\Controllers\CheckInController');
+
+    Route::resource('riwayat', 'App\Http\Controllers\RiwayatController');
+    
+    Route::resource('gallery', 'App\Http\Controllers\GalleryController');
+
+    Route::resource('contact', 'App\Http\Controllers\ContactMessageController');
+
+    Route::resource('daftarTamu', 'App\Http\Controllers\DaftarTamuController');
+
+    Route::resource('laporanKeuangan', 'App\Http\Controllers\LaporanKeuanganController');
+
 
     Route::prefix('reservasi')->name('reservasi.')->group( function () {
         Route::get('/check/in/{id}', [ReservasiController::class, 'check_in'])->name('check.in');
         Route::get('/payment/{id}', [ReservasiController::class, 'payment'])->name('payment');
         Route::get('/both/{id}', [ReservasiController::class, 'check_in_and_payment'])->name('check.in.payment');
         Route::get('/batalkan/{id}', [ReservasiController::class, 'batalkan'])->name('batalkan');
+        Route::put('/simpan/kode/kamar/{id}', [ReservasiController::class, 'pilih_kode_kamar'])->name('simpan.kode.kamar');
     } );
     
-
-    Route::view('/gallery', 'admin.gallery.main')->name('gallery');
-
-    Route::view('/message', 'admin.contact_message.main')->name('contact-message');
 });
 
 

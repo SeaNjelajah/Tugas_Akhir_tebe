@@ -50,10 +50,10 @@
                                 </address>
     
                                 <b>Reservasi ID:</b> {{ $reservasi->id }}<br>
-                                <b>Created At:</b> {{ $reservasi->created_at }}<br>
+                                <b>Created At:</b> {{ Carbon\Carbon::create($reservasi->created_at)->toDateTimeLocalString() }}<br>
                                 <br>
-                                <b>Check In:</b> {{ $reservasi->check_in }}<br>
-                                <b>Check Out:</b> {{ $reservasi->check_out }}<br>
+                                <b>Check In:</b> {{ Carbon\Carbon::create($reservasi->check_in)->toDateTimeLocalString() }}<br>
+                                <b>Check Out:</b> {{ Carbon\Carbon::create($reservasi->check_out)->toDateTimeLocalString() }}<br>
                             </div>
     
                             <div class="invoice-col col">
@@ -134,7 +134,7 @@
                 <div class="col-12">
 
                     <div class="mx-auto d-flex justify-content-between w-50 px-3 mt-2">
-                        <a href="{{ route('home') }}" class="btn btn-primary">Back</a>
+                        <a href="{{ route('home') }}" class="btn btn-primary">Beranda</a>
                         <div id="btnSave" class="btn btn-danger">Download</div>
                     </div>
                     

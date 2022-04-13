@@ -46,20 +46,18 @@ $('#selesai_checkbox').on('click', (e) => {
 
     affect1 = document.getElementById('cari_button');
     affect2 = document.getElementById('selesai_button');
-    form = document.getElementById('kamar_detail_form');
+
 
     if (source.checked) {
         affect2.classList.remove('d-none');
         affect1.classList.add('d-none');
 
-        form.action = affect2.getAttribute('url');
+
 
     }
     else {
         affect2.classList.add('d-none');
         affect1.classList.remove('d-none');
-
-        form.action = affect1.getAttribute('url');
 
     }
 
@@ -71,7 +69,7 @@ $('input[set=sinkron]').on('change', (e) => {
     source = e.target;
     target = $(source.getAttribute('to'))[0];
 
-    maks = source.getAttribute('maks');
+    maks = source.getAttribute('max');
 
     if ( Number(source.value) > maks) {
       source.value = maks;

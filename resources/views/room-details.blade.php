@@ -97,7 +97,7 @@
                 <table class="table table-bordered table-hover">
 
                     @if (!empty($keranjang))
-                    @if ($keranjang->first())
+                        @if ($keranjang->first())
                     <strong style=" margin-bottom: 15px;">Keranjang</strong>
 
                     <thead>
@@ -106,24 +106,28 @@
                             <th>No</th>
                             <th>Kamar</th>
                             <th>Jumlah Kamar</th>
+                            <th>Harga</th>
                             <th>Subtotal</th>
                             <th style="text-align: center"><i class="fa fa-wrench"></i></th>
                         </tr>
 
                     </thead>
-                    @endif
+                        @endif
                     @endif
 
                     <tbody>
                         @php $i = 0; $one = true @endphp
 
                         @foreach ($keranjang as $item)
-
+                        @php
+                            $kamar_item = $item->kamar()->first();
+                        @endphp
                         <tr data-widget="expandable-table" aria-expanded="false">
                             <td>{{ ++$i }}</td>
-                            <td>{{ $item->kamar()->first()->nama }}.</td>
+                            <td>{{ $kamar_item->nama }}.</td>
                             <td>{{ $item->jumlah }}</td>
-                            <td>Rp, {{ $item->subtotal }}</td>
+                            <td>Rp, {{ number_format($kamar_item->harga) }}</td>
+                            <td>Rp, {{ number_format($item->subtotal) }}</td>
                             <td style="text-align: center">
                                 <a set="kamar_hapus" append="#form_simpan_kamar" id_data="{{ $item->id_kamar }}" class="active btn btn-danger btn-sm">
                                     <i class="fa fa-trash"></i>
@@ -135,6 +139,76 @@
 
                         @endforeach
 
+                        <tr>
+                            <td colspan="5">
+                                <hr style="margin-top: 7px; margin-bottom: -11px;">
+                                <div class="row" style="padding-left: 4px;">
+                                    <label style="display: inline-block">Kamar Saat Ini</label>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <strong>Nama Kamar:</strong><br>
+                                        <h4 style="margin-top: 5px; padding-left: 5px">{{ $kamar->nama }}</h4>
+
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <strong>Jumlah Kamar Tersisa:</strong><br>
+                                        <h4 style="margin-top: 5px; padding-left: 5px">{{ $kamar->jumlah_kamar }} Kamar</h4>
+                                    </div>
+
+                                    <div class="col-md-4" style="text-align: right;">
+                                        <strong>Harga per Malam:</strong><br>
+                                        <h4 style="margin-top: 5px; padding-left: 5px">Rp. {{ number_format ($kamar->harga) }}</h4>
+                                    </div>
+
+                                </div>
+
+                                <hr style="margin-top: 3px; margin-bottom: 6px;">
+
+                                <div class="row">
+                                    
+                                    @php
+                                    $terpilih = $keranjang->where('id_kamar', $kamar->id)->first();
+                                    if ($terpilih) {
+                                        $terpilih = $terpilih->jumlah;
+                                    } else {
+                                        $terpilih = 0;
+                                    }
+                                    @endphp
+    
+                                    <div class="col-sm-7">
+                                        <div class="form-group">
+                                            <label for="kamar_terpilih">Jumlah Kamar Terpilih: </label>
+                                            <input value="{{ $terpilih }}" max="{{ $kamar->jumlah_kamar }}" set="sinkron" to="#kamar_terpilih" class="form-control" type="number">
+                                            <small>Untuk menghapus pesanan pada kamar ini, ubah nilai menjadi 0 kemudian simpan</small>
+                                        </div>
+                                        
+                                    </div>
+
+                                    <form id="form_simpan_kamar" enctype="multipart/form-data" class="col-sm-2" style="margin-top: 28px;" method="POST" action="{{ route('keranjang') }}">
+                                        @csrf
+                                        @method('PUT')
+                                        <input id="kamar_terpilih" value="{{ $terpilih }}" type="hidden" name="kamar_terpilih[{{ $kamar->id }}]">
+                                        <button class="btn btn-default">Simpan</button>
+
+                                    </form>
+
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Total: </label>
+                                            <h4 class="form-control">Rp. {{ number_format($keranjang->sum('subtotal')) }}</h4>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </td>
+                        </tr>
+
                     </tbody>
                 </table>
 
@@ -145,9 +219,9 @@
         </div>
 
         <div class="col-sm-5 col-md-4">
-
+            
             @if (!empty($errors->all()))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div class="alert alert-danger alert-dismissible show" role="alert">
 
                 <ul>
                     @foreach ($errors->all() as $error)
@@ -158,6 +232,8 @@
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
+
+
             </div>
             @endif
 
@@ -174,8 +250,9 @@
             </div>
 
 
-            <form id="kamar_detail_form" method="POST" role="form" action="{{ route('kamar') }}" class="wowload fadeInRight">
-
+            <form id="kamar_detail_form" method="POST" role="form" action="{{ route('selesai') }}" class="wowload fadeInRight">
+                @csrf
+                @method('PUT')
                 <div class="form-group">
                     <label>Nama Tamu</label>
                     <input disabled value="{{ session()->get('nama_tamu') }}" type="text" class="form-control" placeholder="Nama*">
@@ -224,7 +301,7 @@
                 <input id="selesai_checkbox" name="selesai_checkbox" type="checkbox" class="form-control" style="display: inline-block;">
                 <label for="selesai_checkbox">Selesai pilih kamar</label>
 
-                <button id="cari_button" url="{{ route('kamar') }}" class="btn btn-default" style="float: right;">Pilih Kamar lagi</button>
+                <a id="cari_button" href="{{ route('kamar') }}" class="btn btn-default" style="float: right;">Pilih Kamar lagi</a>
                 <button id="selesai_button" url="{{ route('selesai') }}" class="btn btn-default d-none" style="float: right;">Selesai</button>
             </form>
 
@@ -299,7 +376,7 @@
             <div class="col-sm-5 col-md-4">
 
                 @if (!empty($errorBag = $errors->all()))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div class="alert alert-danger alert-dismissible show" role="alert">
 
                     <ul>
                         @foreach ($errorBag as $error)

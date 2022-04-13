@@ -16,7 +16,7 @@ class ReservasiController extends Controller
      */
     public function index()
     {
-        $banyak_reservasi = tbl_reservasi::all();
+        $banyak_reservasi = tbl_reservasi::where('status', 'Reservasi')->get();
         return view('admin.reservasi.index', compact('banyak_reservasi'));
     }
 
@@ -225,8 +225,16 @@ class ReservasiController extends Controller
     public function check_in ($id) {
         $reservasi = tbl_reservasi::find($id);
 
-        If ( !$reservasi->kamar()->first() ) {
+        If ( !$reservasi->kamar()->exists() ) {
             return redirect()->route('admin.reservasi.index')->with('failed', 'Harus memilih kamar terlebih dahulu!');
+        }
+
+        if (!$reservasi->payment()->exists()) {
+            return redirect()->route('admin.reservasi.index')->with('failed', 'Reservasi Harus terbayar terlebih dahulu!');
+        }
+
+        if (!$reservasi->kode_kamar()->exists()) {
+            return redirect()->route('admin.reservasi.index')->with('failed', 'Reservasi harus memilih kode kamar terlbih dahulu!');
         }
 
         $reservasi->update([
@@ -239,8 +247,12 @@ class ReservasiController extends Controller
     public function payment ($id) {
         $reservasi = tbl_reservasi::find($id);
 
-        If ( !$reservasi->kamar()->first() ) {
+        If ( !$reservasi->kamar()->exist() ) {
             return redirect()->route('admin.reservasi.index')->with('failed', 'Harus memilih kamar terlebih dahulu!');
+        }
+
+        if (!$reservasi->kode_kamar()->exists()) {
+            return redirect()->route('admin.reservasi.index')->with('failed', 'Reservasi harus memilih kode kamar terlbih dahulu!');
         }
 
         $reservasi->pembayaran()->create([
@@ -257,10 +269,14 @@ class ReservasiController extends Controller
         If ( $reservasi->kamar()->first() ) {
             return redirect()->route('admin.reservasi.index')->with('failed', 'Harus memilih kamar terlebih dahulu!');
         }
-
-        $this->check_in($id);
+        
+        if (!$reservasi->kode_kamar()->exists()) {
+            return redirect()->route('admin.reservasi.index')->with('failed', 'Reservasi harus memilih kode kamar terlbih dahulu!');
+        }
 
         $this->payment($id);
+
+        $this->check_in($id);
 
         return redirect()->route('admin.reservasi.index')->with('success', 'Check In dan Payment Berhasil!');
     }
@@ -273,6 +289,55 @@ class ReservasiController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Reservasi berhasil di batalkan!');
+    }
+
+    public function pilih_kode_kamar (Request $request, $id) {
+
+        $request->validate([
+            "pilih_kode_kamar.*.*" => 'required|distinct'
+        ], [
+            "pilih_kode_kamar.*.*.required" => "Pilih kamar tidak Ter isi semua!",
+            "pilih_kode_kamar.*.*.distinct" => "Salah satu Pilih kamar tidak boleh sama!",
+        ]);
+
+        $reservasi = tbl_reservasi::find($id);
+
+        if ($reservasi->kode_kamar()->first()) {
+
+            $reservasi->kode_kamar()->update([
+                "terisi" => false
+            ]);
+
+            foreach ($reservasi->kode_kamar as $kode_kamar_model) {
+                $kode_kamar_model->reservasi()->dissociate();
+                $kode_kamar_model->save();
+            }
+
+
+        }
+
+
+
+        foreach ( $request->get('pilih_kode_kamar') as $id_kamar => $id_kode_kamar ) {
+                
+            $kamar = tbl_kamar::find($id_kamar);
+            
+            foreach ($id_kode_kamar as $id_kode) {
+                $kode_kamar_model = $kamar->kode_kamar()->find($id_kode);
+
+                $kode_kamar_model->reservasi()->associate($reservasi);
+
+                $kode_kamar_model->terisi = true;
+                $kode_kamar_model->save();
+
+            }
+
+
+        }
+
+
+        return redirect()->route('admin.reservasi.index')->with('success', 'Pilih Kamar Berhasil');
+
     }
 
 }

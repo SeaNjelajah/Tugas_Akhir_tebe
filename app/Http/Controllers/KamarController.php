@@ -119,6 +119,28 @@ class KamarController extends Controller
 
         }
 
+        if ($request->has('kode_kamar')) {
+
+            foreach ($request->get('kode_kamar') as $kode) {
+
+                $kamar->kode_kamar()->create([
+                    'kode_kamar' => $kode
+                ]);
+
+
+            }
+            
+
+        }
+
+        $kode_kamar_count = $kamar->kode_kamar->count();
+
+        for ($i = $kode_kamar_count + 1; $i <= $request->get('jumlah_kamar'); $i++) {
+            $kamar->kode_kamar()->create([
+                'kode_kamar' => $kamar->nama . " " . $i
+            ]);
+        }
+
         $kamar->fasilitas()->attach($request->get('fasilitas'));
 
         $kamar->save();
@@ -188,10 +210,22 @@ class KamarController extends Controller
                 $this->DeleteKamarImage($gambar_utama->gambar);
 
             $ImageName = $this->SaveKamarImageFile($request->file('gambar_utama'));
+            
+            if ($gambar_utama) {
 
-            $gambar_utama->update([
-                "gambar" => $ImageName
-            ]);
+                $gambar_utama->update([
+                    "gambar" => $ImageName
+                ]);
+
+            } else {
+
+                $kamar->gambar()->create([
+                    "gambar" => $ImageName,
+                    "gambar_utama" => true
+                ]);
+
+            }
+           
 
         }
 
@@ -210,12 +244,60 @@ class KamarController extends Controller
 
         if ($request->has('fasilitas')) {
 
-            $detach_fasilitas = $kamar->fasilitas->pluck('id')->diff($request->get('fasilitas'));
-            $kamar->fasilitas()->detach($detach_fasilitas);
-
-            $kamar->fasilitas()->attach($request->get('fasilitas'));
+            $kamar->fasilitas()->sync($request->get('fasilitas'));
 
         }
+
+        if ($request->has('kode_kamar')) {
+
+            foreach ($request->get('kode_kamar') as $kode) {
+                
+                if ($kode) {
+                    $kamar->kode_kamar()->create([
+                        'kode_kamar' => $kode
+                    ]);
+                }
+                
+
+
+            }
+            
+        }
+
+        if ($request->has('kode_kamar_model')) {
+
+            $kode_kamar_id = array_keys( $request->get('kode_kamar_model') );
+            $detach = $kamar->kode_kamar()->pluck('id')->diff( $kode_kamar_id );
+
+            foreach ($detach as $key) {
+                $item = $kamar->kode_kamar()->find($key);
+                if ($item) $item->delete();
+            }
+
+            foreach ($request->get('kode_kamar_model') as $key => $value) {
+                $kode_kamar = $kamar->kode_kamar()->find($key);
+                if ($kode_kamar->kode_kamar != $value) {
+                    $kode_kamar->update([
+                        "kode_kamar" => $value
+                    ]);
+                }
+            }
+
+        } else {
+            foreach ($kamar->kode_kamar as $kode_kamar) {
+                $kode_kamar->delete();
+            }
+        }
+
+        $kode_kamar_count = $kamar->kode_kamar->count();
+
+        for ($i = $kode_kamar_count + 1; $i <= $request->get('jumlah_kamar'); $i++) {
+            $kamar->kode_kamar()->create([
+                'kode_kamar' => $kamar->nama . " " . $i
+            ]);
+        }
+
+        
         
         $kamar->update($data);
 

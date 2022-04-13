@@ -42,6 +42,7 @@
         <div class="row">
 
             <div class="col-md-6">
+
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">Kamar</h3>
@@ -139,7 +140,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Rp</span>
                                 </div>
-                                <input min="0" name="jumlah_kamar" value="{{ old('jumlah_kamar') }}" type="number" name="jumlah_kamar" class="form-control @error('jumlah_kamar') is-invalid @enderror">
+                                <input min="0" name="jumlah_kamar" value="{{ old('jumlah_kamar') }}" type="number" id="jumlah_kamar" class="form-control @error('jumlah_kamar') is-invalid @enderror">
 
                                 @error('jumlah_kamar')
                                 <div class="invalid-feedback">
@@ -156,7 +157,44 @@
                     </div>
                     <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
+                
+                <div class="card card-primary">
+
+                    <div class="card-header">
+                        <h3 class="card-title">Kode Kamar</h3>
+
+                        <div class="card-tools">
+
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="col-12" id="kode_kamar_col">
+
+                                
+                                
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        Kode Untuk Setiap Kamar!
+                    </div>
+
+                </div>
+
+
+
             </div>
 
 
@@ -273,7 +311,18 @@
         </div>
     </div>
 
+
+
+
+
+    <div class="form-group" id="kode_kamar_template">
+        <label for="kode_kamar">Kode Kamar</label>
+        <input id="kode_kamar" type="text" name="kode_kamar[]" class="form-control" placeholder="Kode Kamar">
+    </div>
+
 </div>
+
+
 
 @endsection
 
@@ -436,6 +485,33 @@
     });
 
     
+    const kode_kamar_template = document.getElementById('kode_kamar_template');
+    const kode_kamar_col = document.getElementById('kode_kamar_col');
+
+    $('#jumlah_kamar').on('change', (e) => {
+        source = e.target;
+
+        while (kode_kamar_col.firstChild) {
+            kode_kamar_col.firstChild.remove();
+        }
+
+
+        for (let i = 1; i <= source.value; i++) {
+            kode_kamar = kode_kamar_template.cloneNode(true);
+
+            kode_kamar.querySelector('label').setAttribute('for', 'kode_kamar' + i);
+            kode_kamar.querySelector('label').innerText += " " + i;
+
+            kode_kamar.querySelector('input').id += i;
+            kode_kamar.querySelector('input').placeholder += " " + i + "*";
+            
+            kode_kamar_col.appendChild(kode_kamar);
+        }
+
+
+    });
+
+    
     //Reinit if input has some data
     setTimeout(() => {
 
@@ -446,6 +522,8 @@
             if (document.getElementById('previewUtama').files[0]) {
                 $('input[set=preview]').change();
             }
+
+            $('#jumlah_kamar').change();
 
             button_delete();
     }, 900);

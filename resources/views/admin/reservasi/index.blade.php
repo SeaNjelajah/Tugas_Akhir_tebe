@@ -2,7 +2,7 @@
 
 @section('header')
 <div class="container-fluid">
-    
+
     <div class="row mb-2 ">
 
         <div class="col-sm-3">
@@ -55,8 +55,8 @@
                             <th>Nama Tamu</th>
                             <th>Check In</th>
                             <th>Check Out</th>
-                            <th>ID Kamar</th>
-                            <th>Status</th>
+                            <th>Kamar</th>
+                            
                         </tr>
                     </thead>
 
@@ -68,7 +68,7 @@
                         @php
                         $kamar = $reservasi->kamar->first();
                         @endphp
-                        
+
 
                         <tr data-widget="expandable-table" aria-expanded="false">
 
@@ -80,189 +80,326 @@
                                 @if ($kamar)
                                 Sudah di pilih
                                 @else
-                                Belum di pilih 
+                                Belum di pilih
                                 @endif
                             </td>
-                            <td>{{ $reservasi->status }}</td>
+                            
 
                         </tr>
 
                         <tr class="expandable-body d-none">
-                            <td colspan="6">
+                            <td colspan="5">
 
                                 <div class="card m-0 d-flex w-100 justify-content-center">
 
-                                    
+
 
                                     <div class="invoice m-0 p-2 px-5 pb-3">
-                                            <!-- title row -->
-                                            <div class="row">
-                                                
-                                                <div class="col-12">
-                                                    <h4>
-                                                        Tiket Reservasi
-                                                    </h4>
-                                                </div>
-                                                <!-- /.col -->
+                                        <!-- title row -->
+                                        <div class="row">
+
+                                            <div class="col-12">
+                                                <h4>
+                                                    Tiket Reservasi
+                                                </h4>
                                             </div>
-                                            <!-- info row -->
-                                            <div class="row invoice-info">
+                                            <!-- /.col -->
+                                        </div>
+                                        <!-- info row -->
+                                        <div class="row invoice-info">
 
-                                                <div class="invoice-col mx-4 my-3 text-center">
-                                                    {!! QrCode::size(250)->generate($reservasi->qrcode); !!}
-                                                    <br>
-                                                    <h4 class="mt-2 mb-0">{{ $reservasi->qrcode }}</h4>
-                                                </div>
-                                                <!-- /.col -->
-
-                                                <div class="invoice-col col">
-                                                    <address>
-                                                        <strong>{{ $reservasi->nama_tamu }}</strong><br>
-                                                        Phone: {{ $reservasi->no_tlp }}<br>
-                                                        Email: {{ $reservasi->email }}
-                                                    </address>
-
-                                                    <b>Reservasi ID:</b> {{ $reservasi->id }}<br>
-                                                    <b>Created At:</b> {{ $reservasi->created_at }}<br>
-                                                    <br>
-                                                    <b>Check In:</b> {{ $reservasi->check_in }}<br>
-                                                    <b>Check Out:</b> {{ $reservasi->check_out }}<br>
-                                                </div>
-
-                                                <div class="invoice-col col">
-                                                    <b>Pesan Lain:</b><br>
-                                                    {{ $reservasi->pesan_lain }}
-                                                </div>
-                                                <!-- /.col -->
+                                            <div class="invoice-col mx-4 my-3 text-center">
+                                                {!! QrCode::size(250)->generate($reservasi->qrcode); !!}
+                                                <br>
+                                                <h4 class="mt-2 mb-0">{{ $reservasi->qrcode }}</h4>
                                             </div>
-                                            <!-- /.row -->
+                                            <!-- /.col -->
 
-                                            <!-- Table row -->
-                                            <div class="row">
+                                            <div class="invoice-col col">
+                                                <address>
+                                                    <strong>{{ $reservasi->nama_tamu }}</strong><br>
+                                                    Phone: {{ $reservasi->no_tlp }}<br>
+                                                    Email: {{ $reservasi->email }}
+                                                </address>
+
+                                                <b>Reservasi ID:</b> {{ $reservasi->id }}<br>
+                                                <b>Created At:</b> {{ $reservasi->created_at }}<br>
+                                                <br>
+                                                <b>Check In:</b> {{ $reservasi->check_in }}<br>
+                                                <b>Check Out:</b> {{ $reservasi->check_out }}<br>
+                                            </div>
+
+                                            <div class="invoice-col col">
+                                                <b>Pesan Lain:</b><br>
+                                                {{ $reservasi->pesan_lain }}
+                                            </div>
+                                            <!-- /.col -->
+                                        </div>
+                                        <!-- /.row -->
+
+                                        <!-- Table row -->
+                                        <div class="row">
+
+                                            @if ($kamar)
+                                            <div class="col-12 table-responsive">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Kamar</th>
+                                                            <th>Jumlah</th>
+                                                            <th>Deskripsi</th>
+                                                            <th>Subtotal</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @php $num_2 = 0; @endphp
+                                                        @foreach ($reservasi->kamar as $item)
+                                                        <tr>
+                                                            <td>{{ ++$num_2 }}</td>
+                                                            <td>{{ $item->nama }}</td>
+                                                            <td>{{ $item->pivot->jumlah_kamar }}</td>
+                                                            <td>{{ $item->deskripsi }}</td>
+                                                            <td>Rp, {{ number_format($item->pivot->subtotal) }}</td>
+                                                        </tr>
+                                                        @endforeach
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            @else
+                                            <div class="col-12 table-responsive">
+                                                <table class="table table-striped border">
+                                                    <thead>
+                                                        <tr class="text-center">
+                                                            <th colspan="5">Belum Memilih Kamar</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <tr>
+                                                            <td>
+                                                                <a href="{{ route('admin.reservasi.edit', $reservasi->id) }}" class="btn btn-primary btn-block">
+                                                                    <i class="fas fa-search mr-1"></i> Pilih Kamar
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            @endif
+
+
+                                        </div>
+                                        <!-- /.row -->
+
+                                        <div class="row">
+                                            
+                                            <div class="col-12">
 
                                                 @if ($kamar)
-                                                <div class="col-12 table-responsive">
-                                                    <table class="table table-striped">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>No</th>
-                                                                <th>Kamar</th>
-                                                                <th>Jumlah</th>
-                                                                <th>Deskripsi</th>
-                                                                <th>Subtotal</th>
-                                                            </tr>
-                                                        </thead>
+                                                <div class="table-responsive">
+                                                    <table class="table">
                                                         <tbody>
-                                                            @php $num_2 = 0; @endphp
-                                                            @foreach ($reservasi->kamar as $item)              
                                                             <tr>
-                                                                <td>{{ ++$num_2 }}</td>
-                                                                <td>{{ $item->nama }}</td>
-                                                                <td>{{ $item->pivot->jumlah_kamar }}</td>
-                                                                <td>{{ $item->deskripsi }}</td>
-                                                                <td>Rp, {{ number_format($item->pivot->subtotal) }}</td>
+                                                                <th>Total:</th>
+                                                                <td>Rp.{{ number_format($reservasi->pembayaran) }}</td>
                                                             </tr>
-                                                            @endforeach
-                                                            
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                @else 
-                                                <div class="col-12 table-responsive">
-                                                    <table class="table table-striped border">
-                                                        <thead>
-                                                            <tr class="text-center">
-                                                                <th colspan="5">Belum Memilih Kamar</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-
-                                                            <tr>
-                                                                <td>
-                                                                    <a href="{{ route('admin.reservasi.edit', $reservasi->id) }}" class="btn btn-primary btn-block">
-                                                                        <i class="fas fa-search mr-1"></i> Pilih Kamar
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                            
                                                         </tbody>
                                                     </table>
                                                 </div>
                                                 @endif
 
 
+
                                             </div>
-                                            <!-- /.row -->
 
-                                            <div class="row">
-                                                <!-- accepted payments column -->
-                                                <div class="col-12">
-                                                    
-                                                    @if ($kamar)
-                                                    <div class="table-responsive">
-                                                        <table class="table">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <th>Total:</th>
-                                                                    <td>Rp.{{ number_format($reservasi->pembayaran) }}</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    @endif
-
-                                                </div>
-                                                <!-- /.col -->
-                                            </div>
-                                            <!-- /.row -->
-
-                                            <!-- this row will not appear when printing -->
-                                            <div class="row no-print">
-
-
-                                                <div class="col-12 my-2">
+                                            <div class="col-12 px-3 mt-4 ">
+                                                @if ($kamar)
+                                                <form action="{{ route('admin.reservasi.simpan.kode.kamar', $reservasi->id) }}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('PUT')
 
                                                     
                                                     
+                                                    @foreach ($reservasi->kamar as $item)
+
                                                     @php
-                                                    $pembayaran = $reservasi->pembayaran()->first();
+                                                        $kode_kamar_id = $item->kode_kamar()->pluck('id');
+                                                    
                                                     @endphp
 
-                                                    @if (!($pembayaran) && !$reservasi->status == "Check In")
-                                                    <a href="{{ route('admin.reservasi.check.in.payment', $reservasi->id) }}" type="button" class="btn btn-success float-right">
-                                                        <i class="fas fa-money-bill mr-1"></i>Check In and Payment
-                                                    </a>
-                                                    @endif
+                                                    <div class="card card-secondary mx-auto">
+                                                        <div class="card-header">
+                                                            <h3 class="card-title">{{ $item->nama }}</h3>
 
-                                                    @if ($pembayaran)
-                                                    <button type="button" class="btn btn-outline-primary float-right" style="margin-right: 5px;">
-                                                        <i class="fas fa-check"></i> Payment
+                                                            <div class="card-tools">
+
+                                                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.card-header -->
+                                                        <div class="card-body">
+
+                                                            <div class="row">
+
+                                                                <div class="col-12">
+                                                                    @error("pilih_kode_kamar.$item->id.*")
+                                                                    <div class="alert alert-danger alert-dismissible show" role="alert">
+                                                                        {{ $message }}
+                                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                          <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                      </div>
+                                                                    @enderror
+                                                                </div>
+
+                                                                <div class="col-12">
+                                                                    @php
+                                                                        $terisi = $reservasi->kode_kamar()->where('terisi', true)->pluck('id');
+                                                                    @endphp
+                                                                    @if ($reservasi->kode_kamar()->first())
+                                                                        @php $p = 1; @endphp
+                                                                        @foreach ($reservasi->kode_kamar as $kode_k1)
+
+                                                                            @if ($item->kode_kamar()->find( $kode_k1->id))
+                                                                            <div class="form-group" id="kode_kamar_template">
+                                                                                <label for="pilih_kode_kamar{{ $p }}">Kamar {{ $p }}</label>
+
+                                                                                <select name="pilih_kode_kamar[{{ $item->id }}][]" class="form-control" id="pilih_kode_kamar{{ $p }}">
+
+                                                                                    <option selected value="{{ $kode_k1->id }}">{{ $kode_k1->kode_kamar }}</option>
+
+                                                                                    @foreach ($item->kode_kamar as $kode_k2)
+                                                                                    @if ($kode_k2->id == $kode_k1->id)
+                                                                                        @continue
+                                                                                    @endif
+                                                                                    <option value="{{ $kode_k2->id }}">{{ $kode_k2->kode_kamar }}</option>
+                                                                                    @endforeach
+
+                                                                                </select>
+
+                                                                            </div>
+                                                                            @endif
+                                                                        @php $p += 1; @endphp
+                                                                        @endforeach
+                                                                    @else
+
+                                                                    @php $count1 = 0; @endphp
+                                                                    @for ($p = 1; $p <= $item->pivot->jumlah_kamar; $p++)
+
+                                                                        <div class="form-group" id="kode_kamar_template">
+                                                                            <label for="pilih_kode_kamar{{ $p }}">Kamar {{ $p }}</label>
+
+                                                                            <select name="pilih_kode_kamar[{{ $item->id }}][]" class="form-control" id="pilih_kode_kamar{{ $p }}">
+                                                                                @foreach ($item->kode_kamar()->get() as $kode_kamar)
+                                                                                <option
+
+                                                                                @if ($kode_kamar_id->get($count1) == $kode_kamar->id)
+                                                                                    {{"selected"}}
+                                                                                @endif
+
+                                                                                value="{{ $kode_kamar->id }}">{{ $kode_kamar->kode_kamar }}</option>
+
+                                                                                @endforeach
+                                                                            </select>
+
+                                                                        </div>
+                                                                    @php $count1 += 1; @endphp
+                                                                    @endfor
+
+                                                                    @endif
+                                                                    
+
+                                                                </div>
+                                                                <!-- /.col -->
+                                                            </div>
+                                                            <!-- /.row -->
+                                                        </div>
+
+                                                        <div class="card-footer text-right">
+                                                            {{ $item->pivot->jumlah_kamar }} Kamar Terpilih
+                                                        </div>
+
+
+                                                    </div>
+                                                    @endforeach
+
+                                                    @if ($reservasi->kode_kamar()->first())
+                                                    <button href="{{ route('admin.reservasi.simpan.kode.kamar', $reservasi->id) }}" class="btn btn-outline-primary float-right" style="margin-right: 5px;">
+                                                        <i class="fas fa-check"></i> Simpan Kode Kamar Lagi
                                                     </button>
                                                     @else
-                                                    <a href="{{ route('admin.reservasi.payment', $reservasi->id) }}" type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
-                                                        <i class="fas fa-credit-card"></i> Payment
-                                                    </a>
-                                                    @endif
-                                                    
-                                                    @if ($reservasi->status == "Check In")
-                                                    <button type="button" class="btn btn-outline-primary float-right" style="margin-right: 5px;">
-                                                        <i class="fas fa-check"></i> Check In
+                                                    <button href="{{ route('admin.reservasi.simpan.kode.kamar', $reservasi->id) }}" class="btn btn-primary float-right" style="margin-right: 5px;">
+                                                        <i class="fas fa-bed"></i> Pilih Kode Kamar
                                                     </button>
-                                                    @else
-                                                    <a href="{{ route('admin.reservasi.check.in', $reservasi->id) }}" type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
-                                                        <i class="fas fa-clock"></i> Check In
-                                                    </a>
                                                     @endif
-                                                    
 
 
-                                                </div>
+                                                </form>
 
-                                                
+                                                @endif
+
+
                                             </div>
+
+                                        </div>
+                                        <!-- /.row -->
+
+                                        <!-- this row will not appear when printing -->
+                                        <div class="row no-print">
+
+
+                                            <div class="col-12 my-2">
+
+
+
+                                                @php
+                                                $pembayaran = $reservasi->pembayaran()->first();
+                                                @endphp
+
+                                                @if (!($pembayaran || $reservasi->status == "Check In"))
+                                                <a href="{{ route('admin.reservasi.check.in.payment', $reservasi->id) }}" type="button" class="btn btn-success float-right">
+                                                    <i class="fas fa-money-bill mr-1"></i>Check In and Payment
+                                                </a>
+                                                @endif
+
+                                                @if ($pembayaran)
+                                                <button type="button" class="btn btn-outline-primary float-right" style="margin-right: 5px;">
+                                                    <i class="fas fa-check"></i> Payment
+                                                </button>
+                                                @else
+                                                <a href="{{ route('admin.reservasi.payment', $reservasi->id) }}" type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                                                    <i class="fas fa-credit-card"></i> Payment
+                                                </a>
+                                                @endif
+
+                                                @if ($reservasi->status == "Check In")
+                                                <button type="button" class="btn btn-outline-primary float-right" style="margin-right: 5px;">
+                                                    <i class="fas fa-check"></i> Check In
+                                                </button>
+                                                @else
+                                                <a href="{{ route('admin.reservasi.check.in', $reservasi->id) }}" type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                                                    <i class="fas fa-clock"></i> Check In
+                                                </a>
+                                                @endif
+
+
+
+
+
+                                            </div>
+
+
+                                        </div>
                                     </div>
 
-                                    
+
 
                                     <div class="card-footer">
                                         <a href="{{ route('admin.reservasi.show', $reservasi->id) }}" class="btn btn-primary">Rincian</a>
