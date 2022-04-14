@@ -22,12 +22,17 @@ class tbl_reservasi extends Model
         return $this->kamar()->pivot;
     }
 
-    public function daftar_tamu () {
-        return $this->kamar()->where('status', 'Check In')->get();
-    }
 
     public function kode_kamar () {
         return $this->hasMany(tbl_kode_kamar::class, 'id_reservasi');
+    }
+
+    public function check_in () {
+        return $this->hasOne(tbl_konfirmasi_checkin::class, 'id_reservasi');
+    }
+
+    public function check_out () {
+        return $this->hasOne(tbl_konfirmasi_checkout::class, 'id_reservasi');
     }
 
     /**

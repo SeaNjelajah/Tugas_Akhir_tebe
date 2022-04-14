@@ -217,7 +217,7 @@
                     </thead>
                     <tbody>
                         @php $num_2 = 0; @endphp
-                        @foreach ($reservasi->kamar as $item)              
+                        @foreach ($reservasi->kamar as $item)
                         <tr>
                             <td>{{ ++$num_2 }}</td>
                             <td>{{ $item->nama }}</td>
@@ -226,7 +226,7 @@
                             <td>Rp, {{ number_format($item->pivot->subtotal) }}</td>
                         </tr>
                         @endforeach
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -276,6 +276,141 @@
 
             </div>
             <!-- /.col -->
+
+
+            <div class="col-12 px-3 mt-4 ">
+                @if ($kamar)
+                <form action="{{ route('admin.reservasi.simpan.kode.kamar', $reservasi->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
+
+
+                    @foreach ($reservasi->kamar as $item)
+
+                    @php
+                    $kode_kamar_id = $item->kode_kamar()->pluck('id');
+
+                    @endphp
+
+                    <div class="card card-secondary mx-auto">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ $item->nama }}</h3>
+
+                            <div class="card-tools">
+
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-12">
+                                    @error("pilih_kode_kamar.$item->id.*")
+                                    <div class="alert alert-danger alert-dismissible show" role="alert">
+                                        {{ $message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-12">
+                                    @php
+                                        $kode_kamar_id = $item->kode_kamar()->pluck('id');
+                                        $terisi = $reservasi->kode_kamar()->where('terisi', true)->pluck('id');
+                                    @endphp
+
+                                    @if ($reservasi->kode_kamar()->first())
+                                        @php $p = 1; @endphp
+                                        @foreach ($reservasi->kode_kamar as $kode_k1)
+
+                                            @if ($item->kode_kamar()->find( $kode_k1->id))
+                                            <div class="form-group" id="kode_kamar_template">
+                                                <label for="pilih_kode_kamar{{ $p }}">Kamar {{ $p }}</label>
+
+                                                <select name="pilih_kode_kamar[{{ $item->id }}][]" class="form-control" id="pilih_kode_kamar{{ $p }}">
+
+                                                    <option selected value="{{ $kode_k1->id }}">{{ $kode_k1->kode_kamar }}</option>
+
+                                                    @foreach ($item->kode_kamar()->where('terisi', false)->get() as $kode_k2)
+                                                    @if ($kode_k2->id == $kode_k1->id)
+                                                        @continue
+                                                    @endif
+                                                    <option value="{{ $kode_k2->id }}">{{ $kode_k2->kode_kamar }}</option>
+                                                    @endforeach
+
+                                                </select>
+
+                                            </div>
+                                            @endif
+                                        @php $p += 1; @endphp
+                                        @endforeach
+                                    @else
+
+                                    
+                                    @for ($p = 1; $p <= $item->pivot->jumlah_kamar; $p++)
+
+                                        <div class="form-group" id="kode_kamar_template">
+                                            <label for="pilih_kode_kamar{{ $p }}">Kamar {{ $p }}</label>
+
+                                            <select name="pilih_kode_kamar[{{ $item->id }}][]" class="form-control" id="pilih_kode_kamar{{ $p }}">
+
+                                                <option value="">None</option>
+
+                                                @foreach ($item->kode_kamar()->where('terisi', false)->get() as $kode_kamar)
+                                                <option value="{{ $kode_kamar->id }}">{{ $kode_kamar->kode_kamar }}</option>
+                                                @endforeach
+
+                                            </select>
+
+                                        </div>
+                                    
+                                    @endfor
+
+                                    @endif
+                                    
+
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+
+                        <div class="card-footer text-right">
+                            {{ $item->pivot->jumlah_kamar }} Kamar Terpilih
+                        </div>
+
+
+                    </div>
+                    @endforeach
+
+                    @if ($reservasi->kode_kamar()->first())
+                    <button href="{{ route('admin.reservasi.simpan.kode.kamar', $reservasi->id) }}" class="btn btn-outline-primary float-right" style="margin-right: 5px;">
+                        <i class="fas fa-check"></i> Simpan Kode Kamar Lagi
+                    </button>
+                    @else
+                    <button href="{{ route('admin.reservasi.simpan.kode.kamar', $reservasi->id) }}" class="btn btn-primary float-right" style="margin-right: 5px;">
+                        <i class="fas fa-bed"></i> Pilih Kode Kamar
+                    </button>
+                    @endif
+
+
+                </form>
+
+                @endif
+
+
+            </div>
+
+
+
         </div>
         <!-- /.row -->
 
@@ -289,7 +424,7 @@
                 $pembayaran = $reservasi->pembayaran()->first();
                 @endphp
 
-                @if (!($pembayaran) && !$reservasi->status == "Check In")
+                @if (!($pembayaran || $reservasi->status == "Check In"))
                 <a href="{{ route('admin.reservasi.check.in.payment', $reservasi->id) }}" type="button" class="btn btn-success float-right">
                     <i class="fas fa-money-bill mr-1"></i>Check In and Payment
                 </a>

@@ -112,6 +112,8 @@
     <script src="{{ asset('assets/admin/dist/js/adminlte.min.js') }}"></script>
     {{-- Sweet Alert --}}
     <script src="{{ asset('assets/admin/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
+    {{-- OWN script --}}
+    <script src="{{ asset('assets/admin/script.js') }}"></script>
     
     @include('admin.layout.script');
     

@@ -12,9 +12,16 @@ class FasilitasKamarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $banyak_fasilitas = tbl_fasilitas::paginate(2);
+        $paginate = 5;
+
+        $banyak_fasilitas = tbl_fasilitas::paginate ( $paginate );
+
+        if ($search = $request->get('search')) {
+            $banyak_fasilitas = tbl_fasilitas::search( $search )->paginate( $paginate );
+        }
+
         return view('admin.fasilitas_kamar.index', compact('banyak_fasilitas'));        
     }
 

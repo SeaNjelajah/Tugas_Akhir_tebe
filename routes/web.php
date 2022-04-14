@@ -38,7 +38,10 @@ Route::prefix('admin')->name('admin.')->group( function () {
 
     Route::resource('riwayat', 'App\Http\Controllers\RiwayatController');
     
-    Route::resource('gallery', 'App\Http\Controllers\GalleryController');
+    Route::prefix('gallery')->name('gallery.')->group( function () {
+        Route::get('/', [GalleryController::class, 'index'])->name('index');
+        Route::post('/save', [GalleryController::class, 'save'])->name('save');
+    });
 
     Route::resource('contact', 'App\Http\Controllers\ContactMessageController');
 

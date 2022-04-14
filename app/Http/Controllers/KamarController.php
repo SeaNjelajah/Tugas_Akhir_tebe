@@ -16,9 +16,16 @@ class KamarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $banyak_kamar = tbl_kamar::all();
+        $paginate = 15;
+
+        $banyak_kamar = tbl_kamar::paginate ( $paginate );
+
+        if ($search = $request->get('search')) {
+            $banyak_kamar = tbl_kamar::search( $search )->paginate( $paginate );
+        }
+
         return view('admin.kamar.index', compact('banyak_kamar'));
     }
 

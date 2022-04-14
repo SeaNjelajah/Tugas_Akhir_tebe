@@ -42,6 +42,7 @@
 @section('content')
 <div class="row">
     <div class="col-12">
+
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Tabel Reservasi</h3>
@@ -226,11 +227,6 @@
                                                     
                                                     @foreach ($reservasi->kamar as $item)
 
-                                                    @php
-                                                        $kode_kamar_id = $item->kode_kamar()->pluck('id');
-                                                    
-                                                    @endphp
-
                                                     <div class="card card-secondary mx-auto">
                                                         <div class="card-header">
                                                             <h3 class="card-title">{{ $item->nama }}</h3>
@@ -261,8 +257,10 @@
 
                                                                 <div class="col-12">
                                                                     @php
+                                                                        $kode_kamar_id = $item->kode_kamar()->pluck('id');
                                                                         $terisi = $reservasi->kode_kamar()->where('terisi', true)->pluck('id');
                                                                     @endphp
+
                                                                     @if ($reservasi->kode_kamar()->first())
                                                                         @php $p = 1; @endphp
                                                                         @foreach ($reservasi->kode_kamar as $kode_k1)
@@ -275,7 +273,7 @@
 
                                                                                     <option selected value="{{ $kode_k1->id }}">{{ $kode_k1->kode_kamar }}</option>
 
-                                                                                    @foreach ($item->kode_kamar as $kode_k2)
+                                                                                    @foreach ($item->kode_kamar()->where('terisi', false)->get() as $kode_k2)
                                                                                     @if ($kode_k2->id == $kode_k1->id)
                                                                                         @continue
                                                                                     @endif
@@ -290,27 +288,24 @@
                                                                         @endforeach
                                                                     @else
 
-                                                                    @php $count1 = 0; @endphp
+                                                                    
                                                                     @for ($p = 1; $p <= $item->pivot->jumlah_kamar; $p++)
 
                                                                         <div class="form-group" id="kode_kamar_template">
                                                                             <label for="pilih_kode_kamar{{ $p }}">Kamar {{ $p }}</label>
 
                                                                             <select name="pilih_kode_kamar[{{ $item->id }}][]" class="form-control" id="pilih_kode_kamar{{ $p }}">
-                                                                                @foreach ($item->kode_kamar()->get() as $kode_kamar)
-                                                                                <option
 
-                                                                                @if ($kode_kamar_id->get($count1) == $kode_kamar->id)
-                                                                                    {{"selected"}}
-                                                                                @endif
+                                                                                <option value="">None</option>
 
-                                                                                value="{{ $kode_kamar->id }}">{{ $kode_kamar->kode_kamar }}</option>
-
+                                                                                @foreach ($item->kode_kamar()->where('terisi', false)->get() as $kode_kamar)
+                                                                                <option value="{{ $kode_kamar->id }}">{{ $kode_kamar->kode_kamar }}</option>
                                                                                 @endforeach
+
                                                                             </select>
 
                                                                         </div>
-                                                                    @php $count1 += 1; @endphp
+                                                                    
                                                                     @endfor
 
                                                                     @endif
@@ -420,6 +415,9 @@
                 </table>
             </div>
             <!-- /.card-body -->
+            <div class="card-footer clearfix">
+                {{ $banyak_reservasi->links() }}
+            </div>
         </div>
         <!-- /.card -->
     </div>

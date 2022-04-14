@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\tbl_reservasi;
 use Illuminate\Http\Request;
 
 class DaftarTamuController extends Controller
@@ -11,9 +12,18 @@ class DaftarTamuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.daftar_tamu.index');
+        $paginate = 5;
+
+        $daftar_tamu = tbl_reservasi::where('status', 'Check In')->paginate ( $paginate );
+
+        if ($search = $request->get('search')) {
+            $daftar_tamu = tbl_reservasi::where('status', 'Check In')->search( $search )->paginate( $paginate );
+        }
+
+
+        return view('admin.daftar_tamu.index', compact('daftar_tamu'));
     }
 
     /**

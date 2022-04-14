@@ -119,6 +119,11 @@
           </table>
         </div>
         <!-- /.card-body -->
+        <div class="card-footer clearfix">
+          {{ $banyak_kamar->links('vendor.pagination.default') }}
+        </div>
+
+
       </div>
       <!-- /.card -->
     </div>

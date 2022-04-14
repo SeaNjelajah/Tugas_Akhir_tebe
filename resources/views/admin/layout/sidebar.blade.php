@@ -97,7 +97,7 @@
 
                 <li class="nav-item">
 
-                    <a href="{{ route('admin.reservasi.index') }}" class="nav-link @if (Route::is('admin.reservasi')) active @endif">
+                    <a href="{{ route('admin.reservasi.index') }}" class="nav-link @if (Route::is('admin.reservasi.index')) active @endif">
                         <i class="nav-icon fas fa-pencil-alt"></i>
                         <p>
                             Reservasi
@@ -106,9 +106,19 @@
 
                 </li>
 
+                <li class="nav-item">
+
+                    <a href="{{ route('admin.daftarTamu.index') }}" class="nav-link @if (Route::is('admin.daftarTamu.index')) active @endif">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Daftar Tamu
+                        </p>
+                    </a>
+
+                </li>
                 
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
 
                     <a href="{{ route('admin.checkin.index') }}" class="nav-link @if (Route::is('admin.checkin.index')) active @endif">
                         <i class="nav-icon fas fa-check"></i>
@@ -117,7 +127,7 @@
                         </p>
                     </a>
 
-                </li>
+                </li> --}}
 
                 <li class="nav-item">
 
@@ -152,16 +162,7 @@
 
                 </li>
 
-                <li class="nav-item">
-
-                    <a href="{{ route('admin.daftarTamu.index') }}" class="nav-link @if (Route::is('admin.daftarTamu.index')) active @endif">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            Daftar Tamu
-                        </p>
-                    </a>
-
-                </li>
+                
 
                 <li class="nav-item">
 

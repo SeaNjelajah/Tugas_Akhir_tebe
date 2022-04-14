@@ -14,9 +14,16 @@ class ReservasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $banyak_reservasi = tbl_reservasi::where('status', 'Reservasi')->get();
+        $paginate = 15;
+
+        $banyak_reservasi = tbl_reservasi::where('status', 'Reservasi')->paginate ( $paginate );
+
+        if ($search = $request->get('search')) {
+            $banyak_reservasi = tbl_reservasi::search( $search )->where('status', 'Reservasi')->paginate( $paginate );
+        }
+
         return view('admin.reservasi.index', compact('banyak_reservasi'));
     }
 
