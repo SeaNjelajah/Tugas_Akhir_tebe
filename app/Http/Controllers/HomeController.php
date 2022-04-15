@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\tbl_contact_message;
 use App\Models\tbl_kamar;
 use App\Models\tbl_keranjang;
 use App\Models\tbl_reservasi;
@@ -369,6 +370,21 @@ class HomeController extends Controller
         $kamar->save();
 
         return redirect()->route('kamar.detail', $kamar->id);
+    }
+
+
+    public function contact_save (Request $request) {
+
+        $request->validate([
+            "nama" => "required",
+            "email" => "email",
+            "phone" => "required",
+            "pesan" => "required"
+        ]);
+
+        tbl_contact_message::create( $request->all() );
+
+        return redirect()->route('contact')->with('success', true);
     }
     
 

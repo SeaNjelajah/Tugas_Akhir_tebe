@@ -91,3 +91,5 @@ Route::get('/room/{id}/detail', [HomeController::class, 'detail_kamar'])->name('
 
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
+Route::post('/contact/save', [HomeController::class, 'contact_save'])->name('contact.save');
+

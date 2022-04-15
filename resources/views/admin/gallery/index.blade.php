@@ -15,7 +15,7 @@
                     <form action="{{ route('admin.gallery.save') }}" id="form_target" method="POST" enctype="multipart/form-data">
                         @csrf
                     
-                        <input type="checkbox" name="delete_data_image" id="delete_data_image">
+                        <input checked type="checkbox" name="delete_data_image" id="delete_data_image">
                         <label for="delete_data_image">Hapus Juga data di penyimpanan</label>
                         
                         
@@ -74,6 +74,7 @@
     </div>
 
     <div class="row" id="gallery_row">
+        
         @foreach ($gallery_list as $list)
         <div class="col-12">
 
@@ -90,13 +91,13 @@
                         </div>
 
                         <div class="col text-right d-inline-block">
-                            <input type="file" multiple >
+                            <input id="add_image" type="file" multiple gallery="{{ $list }}">
 
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                 <i class="fas fa-minus"></i>
                             </button>
 
-                            <a id="Hapus_gallery" class="btn btn-danger text-white">
+                            <a id="Hapus_gallery" set="Hapus_gallery" class="btn btn-danger text-white">
                                 Hapus Gallery
                             </a>
                         </div>
@@ -109,9 +110,37 @@
                 </div>
                 <div class="card-body">
 
-                    <div class="row gap-3">
+                    <div class="row gap-3 row-cols-3" id="gallery_{{ $list }}">
 
+                        @php $i = 0; @endphp
+                        @foreach ($gallery_image as $image)
+                        
+                        @if ($image->gallery == $list)
+                        <div class="col-sm-2 col-md-4 border">
 
+                            <a data-toggle="modal" data-target="#gallery_{{ $image->gallery . $i }}">
+                                <img src="{{ asset('storage/gallery/' . $image->gambar) }}" class="img-fluid mb-2 w-100" alt="Gallery Image">
+                            </a>
+                
+                            <div class="ribbon-wrapper">
+                                <button gambar_id="{{ $image->id }}" type="button" set="delete" class="ribbon bg-danger">
+                                    Hapus
+                                </button>
+                            </div>
+
+                        </div>
+                
+                        <div class="modal fade" aria-hidden="true" id="gallery_{{ $image->gallery . $i }}">
+                            <div class="modal-dialog modal-dialog-centered modal-xl" data-dismiss="modal" aria-label="Close">
+                                <div class="modal-content bg-transparent d-flex justify-content-center border-0" style="box-shadow: 0 0 0 0;">
+                                    <img src="{{ asset('storage/gallery/' . $image->gambar) }}" class="img-fluid mb-2" alt="Gallery Image">
+                                </div>
+                            </div>
+                        </div>
+                        @php $i += 1; @endphp
+                        @endif
+
+                        @endforeach
 
 
                     </div>
@@ -149,7 +178,7 @@
                                 <i class="fas fa-minus"></i>
                             </button>
 
-                            <a id="Hapus_gallery" class="btn btn-danger text-white">
+                            <a id="Hapus_gallery" set="Hapus_gallery" class="btn btn-danger text-white">
                                 Hapus Gallery
                             </a>
                         </div>
@@ -162,7 +191,7 @@
                 </div>
                 <div class="card-body">
 
-                    <div class="row gap-3">
+                    <div class="row">
 
 
 
@@ -177,8 +206,8 @@
 
 
 
-        <div class="col-sm-4 mx-auto border" id="gallery_image_template">
-            <a data-toggle="modal" data-target="#gallery ">
+        <div class="col-sm-2 col-md-4 border" id="gallery_image_template">
+            <a data-toggle="modal" data-target="">
                 <img src="" class="img-fluid mb-2 w-100" alt="Gallery Image">
             </a>
 
@@ -202,6 +231,10 @@
 
 
 </div>
+@endsection
+
+@section('style')
+    
 @endsection
 
 @section('script')

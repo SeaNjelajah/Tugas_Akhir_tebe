@@ -38,8 +38,8 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        $gallery_list = tbl_gallery::all('gallery')->unique();
-        $gallery_image = tbl_gallery::all(["id", "gambar"]);
+        $gallery_list = tbl_gallery::all('gallery')->pluck('gallery')->unique();
+        $gallery_image = tbl_gallery::all(["id", "gambar", "gallery"]);
         return view('admin.gallery.index', compact('gallery_list', 'gallery_image'));
     }
 

@@ -380,7 +380,7 @@
             </div>
 
             <div class="col-12 text-center">
-                <input type="checkbox" name="delete_image_data" id="delete_image_data">
+                <input checked type="checkbox" name="delete_image_data" id="delete_image_data">
                 <label for="delete_image_data">Jika di centang maka gambar yang terpilih dihapus akan juga dihapus pada penyimpanan</label>
             </div>
 

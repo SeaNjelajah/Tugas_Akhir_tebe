@@ -6,7 +6,7 @@
     <h1 class="title">Contact</h1>
 
     <!-- form -->
-
+    
     <div class="contact">
 		
         <div class="row">
@@ -23,22 +23,49 @@
                     <div class="spacer">
 
                         <h4>Write to us</h4>
+                        @if ( session()->get('success') )
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h3>
+                                <i class="fa fa-check"></i> Success!
+                            </h3>
+                            Your message have been stored
+                        </div>
+                        @endif
 
-                        <form role="form">
+                        @if($value = $errors->all())
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h3>
+                                <i class="icon fa fa-ban"></i> Alert!
+                            </h3>
+
+                            @foreach ($value as $error)
+                            <ul>
+                                <li>{{ $error }}</li>
+                            </ul>
+                            @endforeach
+
+                        </div>
+                        @endif
+
+                        <form role="form" action="{{ route('contact.save') }}" method="POST">
+                            @csrf
                             <div class="form-group">
-                                <input type="text" class="form-control" id="name" placeholder="Name">
+                                <input type="text" name="nama" class="form-control" id="name" placeholder="Name">
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control" id="email" placeholder="Enter email">
+                                <input type="email" name="email" class="form-control" id="email" placeholder="Enter email">
                             </div>
                             <div class="form-group">
-                                <input type="phone" class="form-control" id="phone" placeholder="Phone">
+                                <input type="phone" name="phone" class="form-control" id="phone" placeholder="Phone">
                             </div>
                             <div class="form-group">
-                                <textarea type="email" class="form-control" placeholder="Message" rows="4"></textarea>
+                                <textarea type="email" name="pesan" class="form-control" placeholder="Message" rows="4"></textarea>
                             </div>
 
                             <button type="submit" class="btn btn-default">KIRIM</button>
+
                         </form>
 
                     </div>

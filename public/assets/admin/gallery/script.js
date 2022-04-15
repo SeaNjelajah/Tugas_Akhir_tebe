@@ -7,7 +7,7 @@ const form_target = document.getElementById('form_target');
 const files_input = (e) => {
     source = e.target;
 
-
+    if (!source) return;
 
     gallery = source.getAttribute('gallery');
 
@@ -18,18 +18,17 @@ const files_input = (e) => {
 
     const target = document.getElementById('gallery_' + gallery);
 
-
     const gallery_image_template = document.getElementById('gallery_image_template').cloneNode(true);
 
     const gallery_modal_template = document.getElementById('gallery_modal_template').cloneNode(true);
 
     files = source.files;
-    
+
     for (let i = 0; i < files.length; i++) {
 
         //add file in merge files array
         for (let a = 0; a < files.length; a++) {
-            
+
             for (var b = 0; b < mergeFile[gallery].length; b++) {
                 if (mergeFile[gallery][b].name == files.item(a).name) break;
             }
@@ -55,7 +54,6 @@ const files_input = (e) => {
 
         modal = gallery_modal_template.cloneNode(true);
 
-        gallery_col.setAttribute("nama_gambar", files.item(i).name);
         gallery_col.id = "";
 
         modal.id = "gallery_" + gallery + (target.childElementCount / 2);
@@ -65,9 +63,10 @@ const files_input = (e) => {
 
         gallery_col_button = gallery_col.querySelector("a");
         gallery_col_button.setAttribute('data-target', "#" + modal.id);
-        
+
         delete_button = gallery_col_button.nextElementSibling.querySelector('button');
         delete_button.setAttribute('gallery', gallery);
+        delete_button.setAttribute("nama_gambar", files.item(i).name);
         $(delete_button).on('click', button_delete);
 
         gallery_col_image = gallery_col.querySelector("a > img");
@@ -89,13 +88,9 @@ const files_input = (e) => {
 const add_gallery = (e) => {
 
     source = e.target;
-    tambah_button = source.nextElementSibling.children[0];
+
 
     if (!source.value) return;
-
-    $(tambah_button).on('click', () => {
-        $(source).change();
-    });
 
     if (e.which == 13) {
 
@@ -106,6 +101,10 @@ const add_gallery = (e) => {
 
         element = gallery_template.cloneNode(true);
         element.id = "";
+
+        delete_button = element.querySelector("#Hapus_gallery");
+        $(delete_button).on('click', delete_gallery);
+
 
         galleryElement = element.querySelector("div > div.card-body > div");
         galleryElement.id = "gallery_" + source.value;
@@ -130,42 +129,40 @@ $(document.getElementById('tambah_gallery').nextElementSibling.children[0]).on('
     $("#tambah_gallery").keypress();
 });
 
-const button_delete = () => {
-    $('button[set=delete]').on('click', function(e) {
-        source = e.target;
+const button_delete = (e) => {
+    source = e.target;
 
-        gallery = source.getAttribute('gallery');
+    if (!source) return;
 
-        col_gallery = source.parentElement.parentElement;
+    gallery = source.getAttribute('gallery');
 
-        console.log(col_gallery);
+    col_gallery = source.parentElement.parentElement;
 
-        if (source.getAttribute('gambar_id')) {
+    if (source.getAttribute('gambar_id')) {
 
-            input = document.createElement("input");
-            input.type = "hidden";
-            input.name = "delete_image[]";
-            input.value = source.getAttribute('gambar_id');
+        input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "delete_image[]";
+        input.value = source.getAttribute('gambar_id');
 
-            form_target.appendChild(input);
+        form_target.appendChild(input);
 
-        } else {
+    }
+    else {
 
-            nama_gambar = col_gallery.getAttribute("nama_gambar");
-            
-            for (let i = 0; i < mergeFile[gallery].length; i++) {
-                if (mergeFile[gallery][i].name === nama_gambar) {
-                    mergeFile[gallery].splice(i, 1);
-                    break;
-                }
+        nama_gambar = source.getAttribute("nama_gambar");
+
+        for (let i = 0; i < mergeFile[gallery].length; i++) {
+            if (mergeFile[gallery][i].name === nama_gambar) {
+                mergeFile[gallery].splice(i, 1);
+                break;
             }
-
         }
 
-        col_gallery.nextElementSibling.remove();
-        col_gallery.remove();
+    }
 
-    });
+    col_gallery.nextElementSibling.remove();
+    col_gallery.remove();
 }
 
 const createFileList = (files) => {
@@ -188,14 +185,18 @@ $("#save_gallery").on('click', (e) => {
     for (let a = 0; a < mergeFileKey.length; a++) {
 
         if (element = form_target.querySelector("#file_" + mergeFileKey[a])) {
-            element.files = createFileList( mergeFile[ mergeFileKey[a] ] );
 
-        } else {
+            if (mergeFile[mergeFileKey[a]]) {
+                element.files = createFileList(mergeFile[mergeFileKey[a]]);
+            }
+
+        }
+        else {
             element = document.createElement('input');
-            element.id = "file_" +  mergeFileKey[a];
+            element.id = "file_" + mergeFileKey[a];
             element.type = "file";
             element.multiple = true;
-            element.files = createFileList ( mergeFile[ mergeFileKey[a] ] );
+            element.files = createFileList(mergeFile[mergeFileKey[a]]);
             element.name = "gambar[" + mergeFileKey[a] + "][]";
             element.classList.add('d-none');
 
@@ -205,7 +206,39 @@ $("#save_gallery").on('click', (e) => {
     }
 
 
-    form_target.submit();    
+    form_target.submit();
 });
 
+const delete_gallery = (e) => {
+    source = e.target;
 
+    gallery_element = source.parentElement.parentElement.parentElement.parentElement.parentElement;
+
+
+    list_delete_button = gallery_element.querySelectorAll("button[set=delete]");
+
+    time = 0;
+
+    for (let index = 0; index < list_delete_button.length; index++) {
+        setTimeout(() => {
+            list_delete_button[index].click();
+        }, time = 500 * (index + 1));
+    }
+
+
+    setTimeout(() => {
+        gallery_element.remove();
+    }, time + 500);
+
+
+}
+
+$(document).ready(() => {
+    setTimeout(() => {
+
+        $("a[set=Hapus_gallery]").on('click', delete_gallery);
+        $("button[set=delete]").on('click', button_delete);
+        $("input#add_image").on('change', files_input);
+
+    }, 600);
+});
