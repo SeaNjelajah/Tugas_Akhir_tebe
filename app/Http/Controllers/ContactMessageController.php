@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\tbl_contact_message;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 
 class ContactMessageController extends Controller
@@ -11,9 +13,18 @@ class ContactMessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.contact_message.index');
+        $paginate = 15;
+
+        $contact_message = tbl_contact_message::orderBy('created_at', "desc")->paginate ( $paginate );
+
+        if ($search = $request->get('search')) {
+            $contact_message = tbl_contact_message::search( $search )->orderBy('created_at', "desc")->paginate( $paginate );
+        }
+
+        return view('admin.contact_message.index', compact('contact_message') );
+
     }
 
     /**

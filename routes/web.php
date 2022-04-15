@@ -37,6 +37,9 @@ Route::prefix('admin')->name('admin.')->group( function () {
     Route::resource('checkin', 'App\Http\Controllers\CheckInController');
 
     Route::resource('riwayat', 'App\Http\Controllers\RiwayatController');
+    Route::prefix('riwayat')->name('riwayat.')->group( function () {
+        Route::get('/{id}/checkout', [RiwayatController::class, 'checkout'])->name('checkout');
+    } );
     
     Route::prefix('gallery')->name('gallery.')->group( function () {
         Route::get('/', [GalleryController::class, 'index'])->name('index');

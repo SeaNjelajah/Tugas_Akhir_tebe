@@ -25,6 +25,36 @@ class RiwayatController extends Controller
         return view('admin.riwayat.index', compact('banyak_riwayat') );
     }
 
+
+    public function checkout ($id) {
+        $reservasi = tbl_reservasi::find($id);
+        $status = $reservasi->status;
+
+        if ($status == "Check In") {
+
+            $reservasi->check_out()->create([]);
+
+            $reservasi->kode_kamar()->update([
+                "terisi" => false
+            ]);
+
+            foreach ($reservasi->kode_kamar as $kode_kamar) {
+                $kode_kamar->kamar()->dissociate();
+            }
+            
+
+            $reservasi->update([
+                "status" => "Check Out"
+            ]);
+
+            return redirect()->back()->with("success");
+        }
+
+
+        return redirect()->back();
+        
+    }
+
     /**
      * Show the form for creating a new resource.
      *

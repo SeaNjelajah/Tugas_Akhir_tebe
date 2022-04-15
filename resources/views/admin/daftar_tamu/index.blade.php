@@ -41,9 +41,10 @@
 
                                 <th>#</th>
                                 <th>Nama Tamu</th>
-                                <th>Check In Pada</th>
-                                <th>Rencana Check Out</th>
+                                <th>Check In</th>
+                                <th>Check Out</th>
                                 <th>Kode Kamar</th>
+                                <th >Aksi</th>
 
                             </tr>
                         </thead>
@@ -56,7 +57,7 @@
                             @php
                             $reservasi = $tamu;
                             $kode_kamar = $reservasi->kode_kamar()->get();
-                            $check_in = $reservasi->check_in()->first();
+                            
                             @endphp
 
 
@@ -64,17 +65,22 @@
 
                                 <td>{{ ++$num }}</td>
                                 <td>{{ $reservasi->nama_tamu }}</td>
-                                <td>{{ $check_in->created_at }}</td>
+                                <td>{{ $reservasi->check_in }}</td>
                                 <td>{{ $reservasi->check_out }}</td>
+
                                 <td>
                                     {{ $kode_kamar->implode('kode_kamar', ',') }}
+                                </td>
+
+                                <td class="p-1 text-center">
+                                    <a href="{{ route('admin.riwayat.checkout', $reservasi->id) }}" class="m-0 btn btn-primary d-inline-block">Check Out</a>
                                 </td>
 
 
                             </tr>
 
                             <tr class="expandable-body d-none">
-                                <td colspan="5">
+                                <td colspan="6">
 
                                     <div class="card card-primary card-tabs">
                                         <div class="card-header p-0 pt-1">
@@ -110,7 +116,7 @@
                                                                 <div class="col-12 col-sm-4">
                                                                     <div class="info-box bg-light">
                                                                         <div class="info-box-content">
-                                                                            <span class="info-box-text text-center text-muted">Rencana Check In</span>
+                                                                            <span class="info-box-text text-center text-muted">Check In</span>
                                                                             <span class="info-box-number text-center text-muted mb-0">{{ $reservasi->check_in }}</span>
                                                                         </div>
                                                                     </div>
@@ -133,6 +139,21 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+
+                                                                @php
+                                                                $check_in = $reservasi->check_in()->first();
+                                                                @endphp
+
+                                                                @if ($check_in)
+                                                                <div class="col-12 col-sm-4">
+                                                                    <div class="info-box bg-light">
+                                                                        <div class="info-box-content">
+                                                                            <span class="info-box-text text-center text-muted">Check In Sebenarnya</span>
+                                                                            <span class="info-box-number text-center text-muted mb-0">{{ $check_in->created_at }}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @endif
 
                                                             </div>
 

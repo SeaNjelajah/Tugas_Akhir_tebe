@@ -70,7 +70,7 @@
                                 <td>{{ $check_in->created_at }}</td>
                                 <td>{{ $check_out->created_at }}</td>
                                 <td>
-                                    {{ $reservasi->harga }}
+                                    {{ $reservasi->pembayaran }}
                                 </td>
                                 <td>
                                     {{ $reservasi->status }}
@@ -80,7 +80,7 @@
                             </tr>
 
                             <tr class="expandable-body d-none">
-                                <td colspan="5">
+                                <td colspan="6">
 
                                     <div class="card card-primary card-tabs">
                                         <div class="card-header p-0 pt-1">
