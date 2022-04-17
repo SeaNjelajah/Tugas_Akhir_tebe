@@ -80,7 +80,7 @@
                             @endforeach
 
                             <tr>
-                                <td colspan="5">
+                                <td colspan="6">
                                     <hr style="margin-top: 7px; margin-bottom: -11px;">
 
                                     {{-- <div class="row" style="padding-left: 4px;">
@@ -93,9 +93,7 @@
                                             @csrf
                                             @method('PUT')
 
-                                            <input id="kamar_terpilih" value="{{ $terpilih }}" type="hidden" name="kamar_terpilih[{{ $kamar->id }}]">
                                             <button class="btn btn-default">Simpan</button>
-
                                         </form>
 
                                         <div class="col-sm-6">
@@ -151,7 +149,8 @@
 
 
                 <form id="kamar_detail_form" method="POST" role="form" action="{{ route('selesai') }}" class="wowload fadeInRight">
-
+                    @csrf
+                    @method('PUT')
                     <div class="form-group">
                         <label>Nama Tamu</label>
                         <input disabled value="{{ session()->get('nama_tamu') }}" type="text" class="form-control" placeholder="Nama*">
@@ -373,131 +372,7 @@
 
 
 <!-- services -->
-<div class="spacer services wowload fadeInUp">
-
-    <div class="container">
-
-        <div class="row">
-
-            <div class="col-sm-4">
-                <!-- RoomCarousel -->
-
-                <div id="RoomCarousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner" style="overflow-y: hidden; max-height: 225px;"> {{-- Untuk membatasi gambar --}}
-
-                        <div class="item active">
-                            <img src="images/photos/8.jpg" class="img-responsive" alt="slide">
-                        </div>
-                        <div class="item  height-full">
-                            <img src="images/photos/9.jpg" class="img-responsive" alt="slide">
-                        </div>
-                        <div class="item  height-full">
-                            <img src="images/photos/10.jpg" class="img-responsive" alt="slide">
-                        </div>
-
-                    </div>
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#RoomCarousel" role="button" data-slide="prev">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
-                    <a class="right carousel-control" href="#RoomCarousel" role="button" data-slide="next">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
-
-                </div>
-                <!-- RoomCarousel-->
-                <div class="caption">Ruangan
-
-                    <a href="{{ route('kamar') }}" class="pull-right">
-                        <i class="fa fa-edit"></i>
-                    </a>
-
-                </div>
-            </div>
-
-
-            <div class="col-sm-4">
-                <!-- RoomCarousel -->
-                <div id="FoodCarousel" class="carousel slide" data-ride="carousel">
-
-                    <div class="carousel-inner" style="overflow-y: hidden; max-height: 225px;"> {{-- Untuk membatasi gambar --}}
-
-                        <div class="item active">
-                            <img src="images/photos/1.jpg" class="img-responsive" alt="slide">
-                        </div>
-
-                        <div class="item  height-full">
-                            <img src="images/photos/2.jpg" class="img-responsive" alt="slide">
-                        </div>
-
-                        <div class="item  height-full">
-                            <img src="images/photos/5.jpg" class="img-responsive" alt="slide">
-                        </div>
-
-                    </div>
-
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#FoodCarousel" role="button" data-slide="prev">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
-
-                    <a class="right carousel-control" href="#FoodCarousel" role="button" data-slide="next">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
-
-                </div>
-                <!-- RoomCarousel-->
-
-                <div class="caption">Food and Drinks
-                    <a href="{{ route('gallery') }}" class="pull-right">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                </div>
-
-
-            </div>
-
-            <div class="col-sm-4">
-                <!-- RoomCarousel -->
-                <div id="FacilityCarousel" class="carousel slide" data-ride="carousel">
-
-                    <div class="carousel-inner" style="overflow-y: hidden; max-height: 225px;"> {{-- Untuk membatasi gambar --}}
-                        <div class="item active">
-                            <img src="/images/photos/oioioi.jpg" class="img-responsive" alt="slide">
-                        </div>
-
-                        <div class="item  height-full">
-                            <img src="images/photos/9.jpg" class="img-responsive" alt="slide">
-                        </div>
-
-                        <div class="item  height-full">
-                            <img src="images/photos/10.jpg" class="img-responsive" alt="slide">
-                        </div>
-
-                    </div>
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#FacilityCarousel" role="button" data-slide="prev">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
-
-                    <a class="right carousel-control" href="#FacilityCarousel" role="button" data-slide="next">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
-
-                </div>
-                <!-- RoomCarousel-->
-                <div class="caption">Fasilitas
-                    <a href="{{ route('kamar') }}" class="pull-right">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                </div>
-
-            </div>
-
-
-        </div>
-    </div>
-</div>
+@include('carousel')
 <!-- services -->
 
 

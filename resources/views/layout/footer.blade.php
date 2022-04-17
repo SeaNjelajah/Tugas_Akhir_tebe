@@ -30,9 +30,9 @@
                         <a href="{{ route('gallery') }}" >Gallery</a>
                     </li>
                     
-                    <li>
+                    {{-- <li>
                         <a href="#" >Tour Packages</a>
-                    </li>
+                    </li> --}}
                     
                     <li>
                         <a href="{{ route('contact') }}" >Contact</a>

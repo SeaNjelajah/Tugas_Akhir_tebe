@@ -291,6 +291,17 @@ class ReservasiController extends Controller
     public function batalkan ($id) {
         $reservasi = tbl_reservasi::find($id);
 
+        foreach ($reservasi->kamar as $kamar) {
+            $kamar->jumlah_kamar += $kamar->pivot->jumlah_kamar;
+            $kamar->save();
+        }
+
+        foreach ($reservasi->kode_kamar as $kode_kamar) {
+            $kode_kamar->terisi = false;
+            $kode_kamar->reservasi()->dissociate();
+            $kode_kamar->save();
+        }
+
         $reservasi->update([
             "status" => "Dibatalkan"
         ]);

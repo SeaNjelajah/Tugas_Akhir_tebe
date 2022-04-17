@@ -1,12 +1,8 @@
 <?php
 
-use App\Http\Controllers\ContactMessageController;
-use App\Http\Controllers\DaftarTamuController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\FasilitasKamarController;
+
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LaporanKeuanganController;
 use App\Http\Controllers\ReservasiController;
 use App\Http\Controllers\RiwayatController;
 use App\Models\tbl_reservasi;
@@ -24,9 +20,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('admin')->name('admin.')->group( function () {
-    Route::view('/' , 'admin.dashboard.main')->name('dashboard');
 
-    Route::resource('dashboard', 'DashboardController');
+    Route::resource('dashboard', 'App\Http\Controllers\DashboardController');
 
     Route::resource('kamar', 'App\Http\Controllers\KamarController');
 
@@ -34,12 +29,8 @@ Route::prefix('admin')->name('admin.')->group( function () {
 
     Route::resource('reservasi', 'App\Http\Controllers\ReservasiController');
 
-    Route::resource('checkin', 'App\Http\Controllers\CheckInController');
 
     Route::resource('riwayat', 'App\Http\Controllers\RiwayatController');
-    Route::prefix('riwayat')->name('riwayat.')->group( function () {
-        Route::get('/{id}/checkout', [RiwayatController::class, 'checkout'])->name('checkout');
-    } );
     
     Route::prefix('gallery')->name('gallery.')->group( function () {
         Route::get('/', [GalleryController::class, 'index'])->name('index');
@@ -49,6 +40,9 @@ Route::prefix('admin')->name('admin.')->group( function () {
     Route::resource('contact', 'App\Http\Controllers\ContactMessageController');
 
     Route::resource('daftarTamu', 'App\Http\Controllers\DaftarTamuController');
+    Route::prefix('daftarTamu')->name('daftarTamu.')->group( function () {
+        Route::get('/{id}/checkout', [RiwayatController::class, 'checkout'])->name('checkout');
+    } );
 
     Route::resource('laporanKeuangan', 'App\Http\Controllers\LaporanKeuanganController');
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\tbl_contact_message;
+use App\Models\tbl_gallery;
 use App\Models\tbl_kamar;
 use App\Models\tbl_keranjang;
 use App\Models\tbl_reservasi;
@@ -21,10 +22,13 @@ class HomeController extends Controller
         $keranjang = [];
 
         if ($id_cart = session()->get('id_cart')) {
-            $keranjang = tbl_keranjang::where('id_cart', 'like', "%$id_cart%");
+            $keranjang = tbl_keranjang::where('id_cart', 'like', "%$id_cart%")->get();
         }
 
-        return view('home', compact('keranjang'));
+        $gallery_image = tbl_gallery::all('gambar', 'gallery');
+        $gallery_list = $gallery_image->pluck('gallery')->unique();
+
+        return view('home', compact('keranjang', 'gallery_image', 'gallery_list'));
     }
 
     public function pengantar () {
@@ -32,7 +36,11 @@ class HomeController extends Controller
     }
 
     public function gallery () {
-        return view('gallery');
+
+        $gallery_image = tbl_gallery::all('gambar', 'gallery');
+        $gallery_list = $gallery_image->pluck('gallery')->unique();
+
+        return view('gallery', compact('gallery_list', 'gallery_image'));
     }
 
     public function contact () {
@@ -48,8 +56,11 @@ class HomeController extends Controller
         if (!session()->has('id_cart')) {
 
             session()->put([
-                "id_cart" => uniqid()
+                "id_cart" => $id_cart =  uniqid()
             ]);
+
+            return $id_cart;
+
         }
     }
 
@@ -139,8 +150,16 @@ class HomeController extends Controller
     }
 
     public function kamar_dan_biaya () {
+
+        $this->purgeKeranjang();
         
         $banyak_kamar = tbl_kamar::where('jumlah_kamar', '>', '0')->get();
+        
+        if ($id_cart = session()->get('id_cart')) {
+            foreach ( tbl_keranjang::where('id_cart', 'like', "%$id_cart%")->get() as $keranjang) {
+                $banyak_kamar = $banyak_kamar->merge( $keranjang->kamar()->get() );
+            }
+        }
 
         return view('rooms-tariff', compact('banyak_kamar'));
     }
@@ -150,16 +169,13 @@ class HomeController extends Controller
         $this->purgeKeranjang();
 
         $kamar = tbl_kamar::find($id);
-        
-        if ($kamar->jumlah_kamar <= 0) {
-            return redirect()->back()->withInput();
-        }
-
-
+            
         $keranjang = [];
 
         if ($id_cart = session()->get('id_cart')) {
             $keranjang = tbl_keranjang::where('id_cart', 'like', "%$id_cart%")->get();
+        } else if ($kamar->jumlah_kamar <= 0) {
+            return redirect()->back()->withInput();
         }
 
         return view('room-details', compact('kamar', 'keranjang'));
@@ -320,6 +336,10 @@ class HomeController extends Controller
             $keranjang = tbl_keranjang::where('id_cart', 'like', "%$id_cart%");
 
             foreach ($keranjang as $item) {
+                $kamar = $item->kamar()->first();
+                $kamar->jumlah_kamar += $item->jumlah;
+                $kamar->save();
+
                 $item->delete();
             }
 
@@ -339,7 +359,7 @@ class HomeController extends Controller
 
         $this->SessionSave($request);
 
-        $this->Create_id_cart();
+        $id_cart = $this->Create_id_cart();
 
         if ( $request->get('pilih_kamar_checkbox') ) {
             return redirect()->route('kamar');
@@ -357,17 +377,36 @@ class HomeController extends Controller
 
         $request->validate($rules, $message);
 
-        $kamar = tbl_kamar::find( $request->get('id_kamar') );
+        $kamar = tbl_kamar::find( $id_kamar = $request->get('id_kamar') );
 
-        tbl_keranjang::create([
-            "id_cart" => session()->get('id_cart'),
-            'id_kamar' => $kamar->id,
-            'jumlah' => $jumlah = $request->get('jumlah_k'),
-            "subtotal" => $jumlah * $kamar->harga
-        ]);
+        if ($keranjang = tbl_keranjang::where('id_cart', 'like', "%$id_cart%")
+            ->where('id_kamar', $id_kamar)->first()) {
 
-        $kamar->jumlah_kamar -= $jumlah;
-        $kamar->save();
+            $kamar->jumlah_kamar += $keranjang->jumlah - $request->get('jumlah_k');
+            $kamar->save();
+
+            $keranjang->jumlah = $request->get('jumlah_k');
+            $keranjang->save();
+        
+        } else {
+            if ($request->get('jumlah_k') > $kamar->jumlah_kamar) {
+                $jumlah = $kamar->jumlah_kamar;
+
+            } else if ($request->get('jumlah_k') > 0) {
+
+                tbl_keranjang::create([
+                    "id_cart" => session()->get('id_cart'),
+                    'id_kamar' => $kamar->id,
+                    'jumlah' => $jumlah = $request->get('jumlah_k'),
+                    "subtotal" => $jumlah * $kamar->harga
+                ]);
+    
+                $kamar->jumlah_kamar -= $jumlah;
+                $kamar->save();
+
+            }
+            
+        }
 
         return redirect()->route('kamar.detail', $kamar->id);
     }
