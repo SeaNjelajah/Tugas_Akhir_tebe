@@ -12,11 +12,11 @@
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
 
             <div class="image">
-                <img src="{{ asset('assets/admin/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{ asset('assets/admin/dist/img/user.png')}}" class="img-circle elevation-2" alt="User Image">
             </div>
 
             <div class="info">
-                <a href="#" class="d-block">Admin Username</a>
+                <a href="#" class="d-block">{{ Auth::user()->username }}</a>
             </div>
 
         </div>
@@ -176,13 +176,13 @@
                 </li>
 
 
+                
                 <li class="nav-item">
 
-                    <a href="pages/widgets.html" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                    <a href="{{ route('admin.UsersAdmin.index') }}" class="nav-link @if (Route::is('admin.UsersAdmin.index')) active @endif">
+                        <i class="nav-icon fas fa-user"></i>
                         <p>
-                            Widgets
-                            <span class="right badge badge-danger">New</span>
+                            Users Admin
                         </p>
                     </a>
 

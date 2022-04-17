@@ -41,10 +41,10 @@
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <div class="user-panel mt-n1">
-                    Admin Username
+                    {{ Auth::user()->username }}
                     <div class="image">
                         
-                        <img src="{{ asset('assets/admin/dist/img/user2-160x160.jpg')}}" class="img-circle border" width="40px" alt="User Image">
+                        <img src="{{ asset('assets/admin/dist/img/user.png')}}" class="img-circle border" width="40px" alt="User Image">
                     </div>
                 </div>
             </a>
@@ -65,8 +65,11 @@
                     </div>
                     <!-- Message End -->
                 </a> --}}
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button class="dropdown-item">Log out</button>
+                </form>
                 
-                <a href="#" class="dropdown-item">Log out</a>
             </div>
         </li>
 

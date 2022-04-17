@@ -45,7 +45,9 @@ Route::prefix('admin')->name('admin.')->group( function () {
     } );
 
     Route::resource('laporanKeuangan', 'App\Http\Controllers\LaporanKeuanganController');
-
+    
+    Route::resource('UsersAdmin', 'App\Http\Controllers\UsersAdminController');
+    
 
     Route::prefix('reservasi')->name('reservasi.')->group( function () {
         Route::get('/check/in/{id}', [ReservasiController::class, 'check_in'])->name('check.in');
