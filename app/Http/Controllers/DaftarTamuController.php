@@ -26,69 +26,32 @@ class DaftarTamuController extends Controller
         return view('admin.daftar_tamu.index', compact('daftar_tamu'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    public function checkout ($id) {
+        $reservasi = tbl_reservasi::find($id);
+        $status = $reservasi->status;
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        if ($status == "Check In") {
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+            $reservasi->check_out()->create([]);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+            $reservasi->kode_kamar()->update([
+                "terisi" => false
+            ]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+            foreach ($reservasi->kode_kamar as $kode_kamar) {
+                $kode_kamar->kamar()->dissociate();
+            }
+            
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+            $reservasi->update([
+                "status" => "Check Out"
+            ]);
+
+            return redirect()->back()->with("success");
+        }
+
+
+        return redirect()->back();
+        
     }
 }

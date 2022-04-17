@@ -61,22 +61,18 @@
                         <thead>
     
                             <tr>
-                                <th>Id</th>
-                                <th>Check Out</th>
-                                <th>Harga Total</th>
+                                <th>Id Reservasi</th>
+                                <th>Pada Tanggal</th>
+                                <th>Pembayaran</th>
                             </tr>
     
                         </thead>
                         <tbody>
                             @foreach ($banyak_laporan as $laporan)
-                            @php
-                                $check_out = $laporan->check_out()->first();
-
-                            @endphp
                             
                             <tr>
-                                <td>{{ $laporan->id }}</td>
-                                <td>{{ $check_out->created_at }}</td>
+                                <td>{{ $laporan->id_reservasi }}</td>
+                                <td>{{ $laporan->pada_tanggal }}</td>
                                 <td>Rp. {{ number_format ($laporan->pembayaran) }}</td>
                             </tr>
                             @endforeach

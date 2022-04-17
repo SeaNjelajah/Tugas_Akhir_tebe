@@ -140,7 +140,7 @@
                         @endforeach
 
                         <tr>
-                            <td colspan="5">
+                            <td colspan="6">
                                 <hr style="margin-top: 7px; margin-bottom: -11px;">
                                 <div class="row" style="padding-left: 4px;">
                                     <label style="display: inline-block">Kamar Saat Ini</label>
@@ -443,7 +443,7 @@
 
 
                     <input id="pilih_kamar_checkbox" name="pilih_kamar_checkbox" type="checkbox" class="form-control" style="display: inline-block;">
-                    <label for="pilih_kamar_checkbox">Pilih Lagi<br>(opsional)</label>
+                    <label for="pilih_kamar_checkbox">Pilih Lagi (opsional)</label>
 
                     <button class="btn btn-default" style="float: right;">Submit</button>
 

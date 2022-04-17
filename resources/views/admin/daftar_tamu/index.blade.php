@@ -31,7 +31,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Tabel Reservasi</h3>
+                    <h3 class="card-title">Tabel Daftar Tamu</h3>
                 </div>
                 <!-- ./card-header -->
                 <div class="card-body">
@@ -73,7 +73,7 @@
                                 </td>
 
                                 <td class="p-1 text-center">
-                                    <a href="{{ route('admin.riwayat.checkout', $reservasi->id) }}" class="m-0 btn btn-primary d-inline-block">Check Out</a>
+                                    <a href="{{ route('admin.daftarTamu.checkout', $reservasi->id) }}" class="m-0 btn btn-primary d-inline-block">Check Out</a>
                                 </td>
 
 

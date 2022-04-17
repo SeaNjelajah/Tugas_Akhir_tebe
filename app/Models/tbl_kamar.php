@@ -38,4 +38,6 @@ class tbl_kamar extends Model
         return $this->hasMany(tbl_kode_kamar::class, 'id_kamar');
     }
 
+    
+
 }

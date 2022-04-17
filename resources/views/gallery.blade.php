@@ -2,81 +2,26 @@
 
 <div class="container">
 
-    <h1 class="title">Galeri</h1>
+    @foreach ($gallery_list as $list)
+
+    <h1 class="title wowload fadeInUp">{{ $list }}</h1>
+
+    <hr style="margin-top: -20px">
     
     <div class="row gallery">
-
+        @foreach ($gallery_image->where('gallery', $list) as $image)
+            
         <div class="col-sm-4 wowload fadeInUp">
-            <a href="images/photos/1.jpg" title="Foods" class="gallery-image" data-gallery>
-                <img src="images/photos/1.jpg" class="img-responsive">
+            <a href="{{ asset('storage/gallery/' . $image->gambar) }}" title="{{ $list }}" class="gallery-image" data-gallery>
+                <img src="{{ asset('storage/gallery/' . $image->gambar) }}" class="img-responsive">
             </a>
         </div>
+
+        @endforeach
         
-        <div class="col-sm-4 wowload fadeInUp">
-            <a href="images/photos/2.jpg" title="Coffee" class="gallery-image" data-gallery>
-                <img src="images/photos/2.jpg" class="img-responsive">
-            </a>
-        </div>
-
-        <div class="col-sm-4 wowload fadeInUp">
-            <a href="images/photos/3.jpg" title="Travel" class="gallery-image" data-gallery>
-                <img src="images/photos/3.jpg" class="img-responsive">
-            </a>
-        </div>
-
-        <div class="col-sm-4 wowload fadeInUp">
-            <a href="images/photos/4.jpg" title="Adventure" class="gallery-image" data-gallery>
-                <img src="images/photos/4.jpg" class="img-responsive">
-            </a>
-        </div>
-
-        <div class="col-sm-4 wowload fadeInUp">
-            <a href="images/photos/5.jpg" title="Fruits" class="gallery-image" data-gallery>
-                <img src="images/photos/5.jpg" class="img-responsive">
-            </a>
-        </div>
-
-        <div class="col-sm-4 wowload fadeInUp">
-            <a href="images/photos/6.jpg" title="Summer" class="gallery-image" data-gallery>
-                <img src="images/photos/6.jpg" class="img-responsive">
-            </a>
-        </div>
-
-        <div class="col-sm-4 wowload fadeInUp">
-            <a href="images/photos/7.jpg" title="Bathroom" class="gallery-image" data-gallery>
-                <img src="images/photos/7.jpg" class="img-responsive">
-            </a>
-        </div>
-
-        <div class="col-sm-4 wowload fadeInUp">
-            <a href="images/photos/8.jpg" title="Rooms" class="gallery-image" data-gallery>
-                <img src="images/photos/8.jpg" class="img-responsive">
-            </a>
-        </div>
-
-        <div class="col-sm-4 wowload fadeInUp">
-            <a href="images/photos/9.jpg" title="Big Room" class="gallery-image" data-gallery>
-                <img src="images/photos/9.jpg" class="img-responsive">
-            </a>
-        </div>
-
-        <div class="col-sm-4 wowload fadeInUp">
-            <a href="images/photos/11.jpg" title="Living Room" class="gallery-image" data-gallery>
-                <img src="images/photos/11.jpg" class="img-responsive">
-            </a>
-        </div>
-
-        <div class="col-sm-4 wowload fadeInUp">
-            <a href="images/photos/1.jpg" title="Fruits" class="gallery-image" data-gallery>
-                <img src="images/photos/1.jpg" class="img-responsive">
-            </a>
-        </div>
-
-        <div class="col-sm-4 wowload fadeInUp">
-            <a href="images/photos/3.jpg" title="Travel" class="gallery-image" data-gallery>
-                <img src="images/photos/3.jpg" class="img-responsive">
-            </a>
-        </div>
-        </d iv>
     </div>
-    @include('layout.footer')
+
+    @endforeach
+
+
+@include('layout.footer')

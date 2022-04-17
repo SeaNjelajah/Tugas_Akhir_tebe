@@ -10,10 +10,11 @@
     <div class="row" style="box-sizing: border-box">
         
         @foreach ($banyak_kamar as $kamar)
-    
+       
         @php
         $gambar_utama = $kamar->gambar_utama() or false;
         @endphp
+        
         <div class="col-sm-6 wowload fadeInUp">
 
             <div class="rooms">
@@ -33,19 +34,6 @@
         </div>
 
         @endforeach
-
-        <div class="col-sm-6 wowload fadeInUp">
-
-            <div class="rooms">
-                <img src="{{ asset('images/photos/9.jpg') }}" class="img-responsive">
-                <div class="info">
-                    <h3>Executive Deluxe Room</h3>
-                    <p>Executive Deluxe Room tersedia dalam tempat tidur double dan twin, lengkap dengan kamar mandi pribadi yang di lengkapi dengan bathub.</p>
-                    <a href="room-details.php" class="btn btn-default">Rp.165.000,00</a>
-                </div>
-            </div>
-
-        </div>
 
 
         {{-- <div class="col-sm-6 wowload fadeInUp">

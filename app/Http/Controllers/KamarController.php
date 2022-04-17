@@ -7,7 +7,7 @@ use App\Models\tbl_gambar;
 use App\Models\tbl_kamar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
+
 
 class KamarController extends Controller
 {
@@ -152,7 +152,7 @@ class KamarController extends Controller
 
         $kamar->save();
 
-        return redirect()->route('admin.kamar.index');
+        return redirect()->route('admin.kamar.index')->with('success', "Data kamar ditambahkan!");
     }
 
     /**
@@ -249,11 +249,7 @@ class KamarController extends Controller
 
         }
 
-        if ($request->has('fasilitas')) {
-
-            $kamar->fasilitas()->sync($request->get('fasilitas'));
-
-        }
+        $kamar->fasilitas()->sync($request->get('fasilitas'));
 
         if ($request->has('kode_kamar')) {
 
@@ -308,7 +304,7 @@ class KamarController extends Controller
         
         $kamar->update($data);
 
-        return redirect()->route('admin.kamar.index');
+        return redirect()->route('admin.kamar.index')->with('success', "Data kamar Updated");
     }
 
     /**
@@ -331,6 +327,6 @@ class KamarController extends Controller
 
         $kamar->delete();
 
-        return redirect()->route('admin.kamar.index');
+        return redirect()->route('admin.kamar.index')->with('success', "Data kamar terhapus!");
     }
 }

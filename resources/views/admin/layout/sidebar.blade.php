@@ -166,7 +166,7 @@
 
                 <li class="nav-item">
 
-                    <a href="{{ route('admin.laporanKeuangan.index') }}" class="nav-link @if (Route::is('admin.laporanKeuangan.index')) active @endif">
+                    <a href="{{ route('admin.laporanKeuangan.index', ['between' => 'all']) }}" class="nav-link @if (Route::is('admin.laporanKeuangan.index')) active @endif">
                         <i class="nav-icon fas fa-money-check-alt"></i>
                         <p>
                             Laporan Keuangan
