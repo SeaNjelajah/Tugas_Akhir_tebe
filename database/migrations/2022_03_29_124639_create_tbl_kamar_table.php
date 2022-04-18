@@ -24,6 +24,7 @@ class CreateTblKamarTable extends Migration
             $table->enum('status', ['Tersedia', 'Penuh', 'Tidak Tersedia'])->default('Tidak Tersedia');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

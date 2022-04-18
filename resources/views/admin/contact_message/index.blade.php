@@ -68,7 +68,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                    {{ $contact_message->links() }}
+                    {{ $contact_message->links('vendor.pagination.default') }}
                 </div>
             </div>
             <!-- /.card -->

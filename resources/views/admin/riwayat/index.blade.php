@@ -352,7 +352,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer clearfix">
-                    {{ $banyak_riwayat->links() }}
+                    {{ $banyak_riwayat->links('vendor.pagination.default') }}
                 </div>
             </div>
 

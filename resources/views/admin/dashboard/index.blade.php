@@ -126,6 +126,15 @@
                 </table>
             </div>
             <!-- /.card-body -->
+
+            <div class="card-footer">
+                {{ $banyak_reservasi->links('vendor.pagination.default') }}
+            </div>
+
+            @empty($banyak_reservasi->links('vendor.pagination.default'))
+                asdadasdadsadadads
+            @endempty
+
         </div>
     </div>
 
@@ -170,6 +179,11 @@
                 </table>
             </div>
             <!-- /.card-body -->
+
+            <div class="card-footer">
+                {{ $banyak_tamu->links('vendor.pagination.default') }}
+            </div>
+
         </div>
 
     </div>

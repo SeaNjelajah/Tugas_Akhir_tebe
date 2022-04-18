@@ -416,7 +416,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer clearfix">
-                {{ $banyak_reservasi->links() }}
+                {{ $banyak_reservasi->links('vendor.pagination.default') }}
             </div>
         </div>
         <!-- /.card -->

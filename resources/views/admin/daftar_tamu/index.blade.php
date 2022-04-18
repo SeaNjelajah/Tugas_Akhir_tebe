@@ -441,7 +441,7 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer clearfix">
-                    {{ $daftar_tamu->links() }}
+                    {{ $daftar_tamu->links('vendor.pagination.default') }}
                 </div>
             </div>
 
