@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DaftarTamuController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\GalleryController;
@@ -43,7 +44,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group( function ()
 
     Route::resource('daftarTamu', 'App\Http\Controllers\DaftarTamuController');
     Route::prefix('daftarTamu')->name('daftarTamu.')->group( function () {
-        Route::get('/{id}/checkout', [RiwayatController::class, 'checkout'])->name('checkout');
+        Route::get('/{id}/checkout', [DaftarTamuController::class, 'checkout'])->name('checkout');
     } );
 
     Route::resource('laporanKeuangan', 'App\Http\Controllers\LaporanKeuanganController');

@@ -230,9 +230,10 @@ class ReservasiController extends Controller
     }
 
     public function check_in ($id) {
+
         $reservasi = tbl_reservasi::find($id);
         
-        If ( !$reservasi->kamar()->exists() ) {
+        If (!$reservasi->kamar()->exists() ) {
             return redirect()->route('admin.reservasi.index')->with('failed', 'Harus memilih kamar terlebih dahulu!');
         }
 
@@ -254,7 +255,7 @@ class ReservasiController extends Controller
     public function payment ($id) {
         $reservasi = tbl_reservasi::find($id);
 
-        If ( !$reservasi->kamar()->exist() ) {
+        If (!$reservasi->kamar()->exists() ) {
             return redirect()->route('admin.reservasi.index')->with('failed', 'Harus memilih kamar terlebih dahulu!');
         }
 

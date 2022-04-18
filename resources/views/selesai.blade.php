@@ -53,7 +53,7 @@
                                 <b>Created At:</b> {{ $reservasi->created_at }}<br>
                                 <br>
                                 <b>Check In:</b> {{ $reservasi->check_in }}<br>
-                                <b>Check Out:<\b> {{ $reservasi->check_out }}<br>
+                                <b>Check Out:</b> {{ $reservasi->check_out }}<br>
                             </div>
     
                             <div class="invoice-col col">
@@ -139,6 +139,7 @@
                     </div>
                     
                 </div>
+                
 
             </div>
 

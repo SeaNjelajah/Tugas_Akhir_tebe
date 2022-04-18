@@ -35,6 +35,10 @@ class tbl_reservasi extends Model
         return $this->hasOne(tbl_konfirmasi_checkout::class, 'id_reservasi');
     }
 
+    public function payment () {
+        return $this->hasOne(tbl_pembayaran::class, 'id_reservasi');
+    }
+
     /**
      * Create a new factory instance for the model.
      *
