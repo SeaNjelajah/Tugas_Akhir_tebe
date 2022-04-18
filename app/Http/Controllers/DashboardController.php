@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\tbl_kode_kamar;
+use App\Models\tbl_konfirmasi_checkin;
+use App\Models\tbl_pembayaran;
+use App\Models\tbl_reservasi;
+use Illuminate\Support\Carbon;
 
 class DashboardController extends Controller
 {
@@ -12,72 +16,27 @@ class DashboardController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view('admin.dashboard.index');
+        $paginate = 5;
+
+        $banyak_reservasi = tbl_reservasi::where('status', 'Reservasi')->orderBy('created_at', 'asc')->paginate( $paginate );
+        $banyak_tamu = tbl_konfirmasi_checkin::orderBy('created_at', 'asc')->paginate( $paginate );
+        
+
+        $now = Carbon::now();
+
+        $between = "month";
+
+        $Start = $now->startOf($between)->toDateTimeLocalString();
+        $End = $now->EndOf($between)->toDateTimeLocalString();
+        
+        $total_checkin = tbl_konfirmasi_checkin::whereBetween('created_at', [$Start, $End])->count();
+        $total_pendapatan = tbl_pembayaran::whereBetween('pada_tanggal', [$Start, $End])->sum('pembayaran');
+
+        $total_reservasi = tbl_reservasi::where('status', 'Reservasi')->count();
+        $total_terisi = tbl_kode_kamar::where('terisi', true)->count();
+
+        return view('admin.dashboard.index', compact('banyak_reservasi', 'banyak_tamu', 'total_checkin', 'total_pendapatan', 'total_reservasi', 'total_terisi'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    
 }

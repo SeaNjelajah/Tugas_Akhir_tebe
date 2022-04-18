@@ -19,7 +19,9 @@ use App\Models\tbl_reservasi;
 |
 */
 
-Route::prefix('admin')->name('admin.')->group( function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group( function () {
+
+    Route::redirect('/', '/admin/dashboard');
 
     Route::resource('dashboard', 'App\Http\Controllers\DashboardController');
 
@@ -92,10 +94,5 @@ Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 
 Route::post('/contact/save', [HomeController::class, 'contact_save'])->name('contact.save');
 
-
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';

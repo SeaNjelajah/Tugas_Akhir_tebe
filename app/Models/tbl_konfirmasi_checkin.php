@@ -16,4 +16,8 @@ class tbl_konfirmasi_checkin extends Model
     public $incrementing = false;
 
     const UPDATED_AT = null;
+
+    public function reservasi () {
+        return $this->belongsTo(tbl_reservasi::class, 'id_reservasi');
+    }
 }
