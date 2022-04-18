@@ -74,7 +74,9 @@ Route::get('/test', function () {
 
     return view('selesai', compact('reservasi'));
 });
+Route::middleware(['hasIdCart'])->group( function () {
 
+});
 Route::put('/kamar/keranjang/save', [HomeController::class, 'kamar_keranjang'])->name('keranjang');
 
 Route::put('/selesai', [HomeController::class, 'selesai'])->name('selesai');

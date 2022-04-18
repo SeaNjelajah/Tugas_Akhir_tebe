@@ -319,9 +319,8 @@ class HomeController extends Controller
             $reservasi = tbl_reservasi::create ( array_merge($request->all(), compact('qrcode', 'durasi')) );
 
         }
-
-        session()->invalidate();
         
+        session()->invalidate();
 
         return view('selesai', compact('reservasi'));
 
