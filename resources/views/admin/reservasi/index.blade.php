@@ -11,7 +11,7 @@
 
         <div class="col-sm-9 ml-auto d-inline-block text-right">
 
-            <form action="#" class="d-inline-flex ml-auto" method="GET">
+            <form class="d-inline-flex ml-auto" method="GET">
 
                 <input type="text" name="search" class="form-control w-50" placeholder="Qr Code">
 

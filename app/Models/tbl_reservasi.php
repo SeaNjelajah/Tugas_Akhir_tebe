@@ -5,10 +5,11 @@ namespace App\Models;
 use Database\Factories\ReservasiFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class tbl_reservasi extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
     
     protected $table = "tbl_reservasi";
 
